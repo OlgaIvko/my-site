@@ -1,0 +1,86 @@
+.custom-checkbox {
+  $root: &;
+
+&__field:checked {
+  + #{$root}__label {
+    #{$root}__icon {
+      opacity: 1;
+    }
+
+    &::before  {
+      background-color: $color-granny-smith-apple;
+      border-color: $color-granny-smith-apple;
+    }
+  }
+}
+
+  &__label {
+    display: flex;
+    align-items: center;
+    padding: 0 0 0 26px;
+    gap: 10px;
+    font-size: 16px;
+    line-height: 22.4px;
+    position: relative;
+    cursor: pointer;
+    transition: opacity $transition;
+
+    &:hover,
+    &:focus-visible {
+      opacity: 0.7;
+    }
+
+    &::before {
+      content: "";
+      height: 16px;
+      width: 16px;
+      border: 1px solid $color-dark-gray;
+      border-radius: 3px;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: border-color $transition, background-color $transition;
+    }
+  }
+
+  &__count {
+    color: $color-dark-gray;
+  }
+
+  &__icon {
+    position: absolute;
+    top: 36%;
+    left: 4px;
+    opacity: 0;
+    transition: opacity $transition;
+  }
+}
+
+/* Стили для активных фильтров */
+.custom-checkbox__field:checked+.custom-checkbox__label {
+  background-color: #f0f8ff;
+  border-color: #007bff;
+}
+
+.custom-checkbox__field:checked+.custom-checkbox__label .custom-checkbox__icon {
+  opacity: 1;
+}
+
+/* Стили для радиокнопок */
+.custom-radio__field:checked+.custom-radio__label .custom-radio__toggle {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.custom-radio__field:checked+.custom-radio__label .custom-radio__toggle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+}

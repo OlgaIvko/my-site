@@ -1,0 +1,795 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/services.css" />
+
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link
+      rel="icon"
+      type="/favicon_io"
+      sizes="32x32"
+      href="/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="/favicon_io"
+      sizes="16x16"
+      href="./favicon-16x16.png"
+    />
+    <link rel="manifest" href="/site.webmanifest" /> -->
+    <title>Наши услуги - Веб-студия</title>
+  </head>
+
+  <body>
+    <main>
+      <!-- Breadcrumbs -->
+      <!-- <div class="breadcrumbs">
+        <div class="container">
+          <ul class="breadcrumbs__list">
+            <li class="breadcrumbs__item">
+              <a class="breadcrumbs__link" href="#">Главная</a>
+            </li>
+            <li class="breadcrumbs__item">
+              <a class="breadcrumbs__link" href="#">Каталог</a>
+            </li>
+            <li class="breadcrumbs__item">
+              <a class="breadcrumbs__link" href="#">Светильники</a>
+            </li>
+          </ul>
+        </div>
+      </div> -->
+
+      <!-- Основная услуга (Digital-партнёрство) -->
+      <section class="description">
+        <div class="description__wrapper">
+          <a href="#" class="description__logo-link">
+            <svg
+              class="description__logo"
+              width="140"
+              height="26"
+              aria-hidden="true"
+            >
+              <use xlink:href="images/sprite.svg#icon-logo"></use>
+            </svg>
+          </a>
+          <div class="description_conteiner">
+            <!-- Текст слева -->
+
+            <div class="description__texts" style="flex: 1; min-width: 300px">
+              <h2 style="font-size: 32px; margin-bottom: 20px; color: #fbe9b4">
+                Digital-партнёрство
+              </h2>
+              <p style="font-size: 18px; color: #666; margin-bottom: 15px">
+                <strong>Полный цикл разработки:</strong> от идеи до результата
+              </p>
+              <ul
+                style="
+                  list-style: none;
+                  padding-left: 0;
+                  margin-bottom: 25px;
+                  color: #fbe9b4;
+                "
+              >
+                <li
+                  style="
+                    padding-left: 24px;
+                    position: relative;
+                    margin-bottom: 10px;
+                  "
+                >
+                  <span style="position: absolute; left: 0; color: #3499ff"
+                    >✓</span
+                  >
+                  Аналитика и прототипирование
+                </li>
+                <li
+                  style="
+                    padding-left: 24px;
+                    position: relative;
+                    margin-bottom: 10px;
+                  "
+                >
+                  <span style="position: absolute; left: 0; color: #3499ff"
+                    >✓</span
+                  >
+                  UI/UX-дизайн
+                </li>
+                <li
+                  style="
+                    padding-left: 24px;
+                    position: relative;
+                    margin-bottom: 10px;
+                  "
+                >
+                  <span style="position: absolute; left: 0; color: #3499ff"
+                    >✓</span
+                  >
+                  Frontend и Backend разработка
+                </li>
+                <li
+                  style="
+                    padding-left: 24px;
+                    position: relative;
+                    margin-bottom: 10px;
+                  "
+                >
+                  <span style="position: absolute; left: 0; color: #3499ff"
+                    >✓</span
+                  >
+                  Тестирование и запуск
+                </li>
+                <li
+                  style="
+                    padding-left: 24px;
+                    position: relative;
+                    margin-bottom: 10px;
+                  "
+                >
+                  <span style="position: absolute; left: 0; color: #3499ff"
+                    >✓</span
+                  >
+                  Техническая поддержка 12 месяцев
+                </li>
+              </ul>
+              <div class="description__contacts">
+                <a href="tel:+79997005798" class="description__phone"
+                  >Позвонить</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="description__video"
+            style="
+              flex: 1;
+              min-width: 0; /* Важно для правильного сжатия */
+              aspect-ratio: 5/7; /* Соотношение 5:7 */
+              max-width: 500px;
+              overflow: hidden;
+              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            "
+          >
+            <video
+              autoplay
+              muted
+              loop
+              playsinline
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+              "
+            >
+              <source src="video/process.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </section>
+
+      <section class="catalog">
+        <div class="container">
+          <!-- Меняем только заголовок -->
+          <h1 class="catalog__title">Наши услуги</h1>
+
+          <div class="catalog__wrapper">
+            <!-- Правая часть - карточки услуг -->
+            <div class="catalog__products">
+              <div class="catalog__quick-select">
+                <p class="catalog__quick-select-text">Быстрый выбор:</p>
+                <div class="quick-buttons">
+                  <button class="quick-btn active" data-type="all">
+                    Все услуги
+                  </button>
+                  <button class="quick-btn" data-type="popular">
+                    🔥 Популярные
+                  </button>
+                  <button class="quick-btn" data-type="mobile">
+                    📱 Мобильные приложения
+                  </button>
+                  <button class="quick-btn" data-type="design">
+                    🎨 Дизайн в Figma
+                  </button>
+                  <button class="quick-btn" data-type="landing">
+                    🚀 Лендинги
+                  </button>
+                  <button class="quick-btn" data-type="shop">
+                    🛒 Магазины
+                  </button>
+                  <button class="quick-btn" data-type="corporate">
+                    🏢 Корпоративные
+                  </button>
+                  <button class="quick-btn" data-type="business-card">
+                    📇 Сайт-визитка
+                  </button>
+                </div>
+              </div>
+
+              <!-- Контейнер для карточек услуг (JavaScript вставит сюда) -->
+              <ul class="catalog__list" id="services-container">
+                <!-- Здесь будут карточки услуг через JS -->
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="promo-with-form-container">
+          <!-- Промо-карточка (ваш существующий код) -->
+          <div class="promo-card-wrapper">
+            <div class="catalog__item catalog__item--promo">
+              <div class="promo-card">
+                <!-- Левая часть - текст и описание -->
+                <div class="promo-card__content">
+                  <span class="promo-badge">🔥 Спецпредложение</span>
+                  <h2 class="promo-card__title">Запустим вашу доставку еды</h2>
+                  <p class="promo-card__description">
+                    Создаем уникальные онлайн-магазины под ключ...
+                  </p>
+
+                  <div class="promo-features">
+                    <div class="promo-feature">
+                      <span class="promo-feature__icon">✓</span>
+                      <span class="promo-feature__text">Дизайн интерфейса</span>
+                    </div>
+                    <!-- остальные фичи -->
+                  </div>
+
+                  <div class="promo-card__cta">
+                    <div class="price-wrapper">
+                      <div class="old-price">от 250 000 ₽</div>
+                      <div class="current-price">от 200 000 ₽</div>
+                      <div class="price-note">При заказе до конца месяца</div>
+                    </div>
+
+                    <button class="promo-order-btn btn btn--primary">
+                      🚀 Начать проект
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Правая часть - видео -->
+                <div class="promo-card-video">
+                  <div class="description__video">
+                    <div class="video-wrapper">
+                      <video
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                        poster="images/video-poster.jpg"
+                        style="
+                          width: 100%;
+                          height: 100%;
+                          object-fit: cover;
+                          display: block;
+                        "
+                      >
+                        <source src="video/pizza.mp4" type="video/mp4" />
+                        <p>
+                          Ваш браузер не поддерживает видео.
+                          <a href="video/pizza.mp4">Скачайте видео</a>
+                        </p>
+                      </video>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Форма расчета (ваш существующий код без изменений) -->
+          <div class="form-wrapper">
+            <div class="order-calculation">
+              <div class="order-calculation-header">
+                <h4 class="order-calculation-title">
+                  <svg
+                    width="24"
+                    height="24"
+                    style="margin-right: 10px; vertical-align: middle"
+                  >
+                    <use xlink:href="images/sprite.svg#icon-calculator"></use>
+                  </svg>
+                  Бесплатный расчёт стоимости
+                </h4>
+                <p class="order-calculation-subtitle">
+                  Получите детальную смету по выбранным услугам
+                </p>
+              </div>
+
+              <!-- Форма заказа расчета -->
+              <form class="order-calculation-form" id="order-calculation-form">
+                <input
+                  type="hidden"
+                  name="selected_services"
+                  id="selected-services-input"
+                />
+                <input type="hidden" name="telegram_bot" value="Max" />
+                <input
+                  type="hidden"
+                  name="telegram_phone"
+                  value="89997005798"
+                />
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="client-name" class="form-label"
+                      >Ваше имя *</label
+                    >
+                    <input
+                      type="text"
+                      id="client-name"
+                      name="name"
+                      class="form-input"
+                      placeholder="Иван Иванов"
+                      required
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="client-phone" class="form-label"
+                      >Телефон *</label
+                    >
+                    <input
+                      type="tel"
+                      id="client-phone"
+                      name="phone"
+                      class="form-input"
+                      placeholder="+7 (999) 123-45-67"
+                      required
+                      pattern="^\+7\s?[\(]?\d{3}[\)]?\s?\d{3}[\-]?\d{2}[\-]?\d{2}$"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="client-email" class="form-label">Email</label>
+                  <input
+                    type="email"
+                    id="client-email"
+                    name="email"
+                    class="form-input"
+                    placeholder="example@mail.ru"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="project-desc" class="form-label"
+                    >Опишите ваш проект</label
+                  >
+                  <textarea
+                    id="project-desc"
+                    name="description"
+                    class="form-textarea"
+                    placeholder="Например: Нужен интернет-магазин одежды с каталогом на 100 товаров..."
+                    rows="3"
+                  ></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-checkbox">
+                    <input type="checkbox" name="agreement" required />
+                    <span class="checkbox-icon"></span>
+                    <span class="checkbox-text">
+                      Согласен с
+                      <a href="#" class="privacy-link"
+                        >политикой конфиденциальности</a
+                      >
+                    </span>
+                  </label>
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="submit-btn">
+                    <svg width="34" height="34" style="margin-right: 8px">
+                      <use xlink:href="images/sprite.svg#icon-telegram"></use>
+                    </svg>
+                    Заказать расчёт через Telegram
+                  </button>
+
+                  <div class="contact-alternative">
+                    <span>Или напишите напрямую:</span>
+                    <a
+                      href="https://t.me/+79997005798"
+                      class="telegram-link"
+                      target="_blank"
+                    >
+                      @Max (8-999-700-57-98)
+                    </a>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Товары дня -->
+      <!-- <section class="day-products">
+        <div class="container">
+          <div class="day-products__top">
+            <h2 class="day-products__title">Товары дня</h2>
+          </div> -->
+
+      <!-- Слайдер -->
+      <!-- <div class="day-products__slider swiper">
+            <ul class="day-products__list swiper-wrapper">
+              <li class="day-products__item">
+                <div class="product-card product-card--small">
+                  <div class="">
+                    <img
+                      class="product-card__img"
+                      src="images/item-7.png"
+                      height="344"
+                      width="290"
+                      alt="Изображение товара"
+                    />
+                    <div class="product-card__more">
+                      <a href="#" class="product-card__link btn btn--icon">
+                        <span class="btn__text">В корзину</span>
+                      </a>
+                      <a href="#" class="product-card__link btn btn--secondary">
+                        <span class="btn__text">Подробнее</span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="product-card__info">
+                    <h2 class="product-card__title">
+                      Потолочная люстра Ornella A4059PL-4AB (Artelamp)
+                    </h2>
+                    <span class="product-card__old">
+                      <span class="product-card__old-number">15 300</span>
+                      <span class="product-card__old-add">₽</span>
+                    </span>
+                    <span class="product-card__price">
+                      <span class="product-card__price-number">11 540</span>
+                      <span class="product-card__price-add">₽</span>
+                    </span>
+                    <div class="product-card__tooltip tooltip">
+                      <button
+                        class="tooltip__btn"
+                        aria-label="Показать подсказку"
+                      >
+                        <svg
+                          class="tooltip__icon"
+                          width="5"
+                          height="10"
+                          aria-hidden="true"
+                        >
+                          <use xlink:href="images/sprite.svg#icon-i"></use>
+                        </svg>
+                      </button>
+                      <div class="tooltip__content">
+                        <span class="tooltip__text"
+                          >Наличие товара по городам:</span
+                        >
+                        <ul class="tooltip__list">
+                          <li class="tooltip__item">
+                            <span class="tooltip__text"
+                              >Москва:
+                              <span class="tooltip__count">454</span></span
+                            >
+                          </li>
+                          <li class="tooltip__item">
+                            <span class="tooltip__text"
+                              >Оренбург:
+                              <span class="tooltip__count">381</span></span
+                            >
+                          </li>
+                          <li class="tooltip__item">
+                            <span class="tooltip__text"
+                              >Санкт-Петербург:
+                              <span class="tooltip__count">15</span></span
+                            >
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section> -->
+
+      <!-- Описание компании -->
+      <section class="description description-about">
+        <div class="container">
+          <svg
+            class="description__lamp"
+            width="94"
+            height="94"
+            aria-hidden="true"
+          >
+            <use xlink:href="images/sprite.svg#icon-lamp"></use>
+          </svg>
+          <h2 class="visually-hidden">Описание магазина</h2>
+          <div class="description__texts">
+            <p>
+              Накладные светильники можно установить на потолок, пол или стены в
+              соответствии с дизайнерской концепцией. Сфера использования данных
+              осветительных приборов широка. Их успешно применяют для освещения
+              любых помещений: офисов, торговых и бизнес-центров, магазинов,
+              интерьеров сегмента HoReCa и т.д.
+            </p>
+            <p>
+              На нашем сайте в каталоге представлен широкий выбор накладных
+              светильников. В нем вы сможете найти световые приборы различной
+              формы, цвета, размера, стиля и пр. Устанавливая нужные
+              характеристики, нетрудно выбрать подходящую модель. Однако чтобы
+              купить накладные светильники под конкретную задачу, удобнее
+              связаться с менеджерам. Специалисты сделают профессиональный
+              проект освещения, подберут оборудование и при необходимости
+              организуют доставку. Мы реализуем варианты светильников накладных
+              для декоративного, направленного или заливающего освещения.
+              Предлагаются модели с различными источниками света, но
+              максимальное количество вариантов – среди светодиодных
+              светильников.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="faq">
+        <div class="container">
+          <div class="faq__wrapper">
+            <h2 class="faq__title">Ответы на частые вопросы от покупателей</h2>
+            <div class="faq__accordion accordion">
+              <div class="accordion__element">
+                <button class="accordion__btn" type="button">
+                  <span class="accordion__btn-text">Вы работаете с НДС?</span>
+                  <span class="accordion__btn-icon"></span>
+                </button>
+                <div class="accordion__content">
+                  <div class="accordion__inner">
+                    <div class="accordion__text">
+                      <p>
+                        Вы можете отказаться от покупки. Товар должен быть
+                        надлежащего качества. Убедитесь, что сохранён товарный
+                        вид, потребительские свойства, а также имеется документ,
+                        подтверждающий покупку товара, на товаре отсутствуют
+                        следы сборки, ухудшающие его товарный вид.
+                      </p>
+                      <p>
+                        Обращаем Ваше внимание, что расходы на доставку товара в
+                        случае возврата или обмена товара надлежащего качества
+                        несет Покупатель.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion__element">
+                <button class="accordion__btn" type="button">
+                  <span class="accordion__btn-text"
+                    >Как обменять или вернуть товар надлежащего качества?</span
+                  >
+                  <span class="accordion__btn-icon"></span>
+                </button>
+                <div class="accordion__content">
+                  <div class="accordion__inner">
+                    <div class="accordion__text">
+                      <p>
+                        Вы можете отказаться от покупки. Товар должен быть
+                        надлежащего качества. Убедитесь, что сохранён товарный
+                        вид, потребительские свойства, а также имеется документ,
+                        подтверждающий покупку товара, на товаре отсутствуют
+                        следы сборки, ухудшающие его товарный вид.
+                      </p>
+                      <p>
+                        Обращаем Ваше внимание, что расходы на доставку товара в
+                        случае возврата или обмена товара надлежащего качества
+                        несет Покупатель.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion__element">
+                <button class="accordion__btn" type="button">
+                  <span class="accordion__btn-text"
+                    >Как я могу отследить свой заказ?</span
+                  >
+                  <span class="accordion__btn-icon"></span>
+                </button>
+                <div class="accordion__content">
+                  <div class="accordion__inner">
+                    <div class="accordion__text">
+                      <p>
+                        Вы можете отказаться от покупки. Товар должен быть
+                        надлежащего качества. Убедитесь, что сохранён товарный
+                        вид, потребительские свойства, а также имеется документ,
+                        подтверждающий покупку товара, на товаре отсутствуют
+                        следы сборки, ухудшающие его товарный вид.
+                      </p>
+                      <p>
+                        Обращаем Ваше внимание, что расходы на доставку товара в
+                        случае возврата или обмена товара надлежащего качества
+                        несет Покупатель.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion__element">
+                <button class="accordion__btn" type="button">
+                  <span class="accordion__btn-text"
+                    >Есть ли доставка в регионы?</span
+                  >
+                  <span class="accordion__btn-icon"></span>
+                </button>
+                <div class="accordion__content">
+                  <div class="accordion__inner">
+                    <div class="accordion__text">
+                      <p>
+                        Вы можете отказаться от покупки. Товар должен быть
+                        надлежащего качества. Убедитесь, что сохранён товарный
+                        вид, потребительские свойства, а также имеется документ,
+                        подтверждающий покупку товара, на товаре отсутствуют
+                        следы сборки, ухудшающие его товарный вид.
+                      </p>
+                      <p>
+                        Обращаем Ваше внимание, что расходы на доставку товара в
+                        случае возврата или обмена товара надлежащего качества
+                        несет Покупатель.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion__element">
+                <button class="accordion__btn" type="button">
+                  <span class="accordion__btn-text"
+                    >Возможно ли получить корпоративную скидку?</span
+                  >
+                  <span class="accordion__btn-icon"></span>
+                </button>
+                <div class="accordion__content">
+                  <div class="accordion__inner">
+                    <div class="accordion__text">
+                      <p>
+                        Вы можете отказаться от покупки. Товар должен быть
+                        надлежащего качества. Убедитесь, что сохранён товарный
+                        вид, потребительские свойства, а также имеется документ,
+                        подтверждающий покупку товара, на товаре отсутствуют
+                        следы сборки, ухудшающие его товарный вид.
+                      </p>
+                      <p>
+                        Обращаем Ваше внимание, что расходы на доставку товара в
+                        случае возврата или обмена товара надлежащего качества
+                        несет Покупатель.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__main">
+          <a class="footer__logo-link" href="#">
+            <svg
+              class="footer__logo"
+              width="180"
+              height="33"
+              aria-hidden="true"
+            >
+              <use xlink:href="images/sprite.svg#icon-logo-black"></use>
+            </svg>
+          </a>
+          <div class="footer__menu">
+            <div class="footer__box">
+              <div class="footer__contact">
+                <span class="footer__name">Адрес:</span>
+                <span class="footer__contact-link"
+                  >г. Москва, Нижний проезд, 25/3</span
+                >
+              </div>
+              <div class="footer__contact">
+                <span class="footer__name">Контакты:</span>
+                <a
+                  class="footer__contact-link"
+                  href="mailto:infobriaton@group.ru"
+                  >infobriaton@group.ru</a
+                >
+                <a class="footer__contact-link" href="tel:+78002220037"
+                  >+7 (800) 222-00-37</a
+                >
+              </div>
+            </div>
+            <div class="footer__social">
+              <span class="footer__name">Присоединяйтесь к нам:</span>
+              <ul class="footer__social-list">
+                <li class="footer__social-item">
+                  <a class="footer__social-link" href="#">Дзен</a>
+                </li>
+                <li class="footer__social-item">
+                  <a class="footer__social-link" href="#">Одноклассники</a>
+                </li>
+                <li class="footer__social-item">
+                  <a class="footer__social-link" href="#">Pinterest</a>
+                </li>
+                <li class="footer__social-item">
+                  <a class="footer__social-link" href="#">Вконтакте</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer__info">
+            <ul class="footer__cards">
+              <li class="footer__card">
+                <svg
+                  class="footer__logo"
+                  width="44"
+                  height="15"
+                  aria-hidden="true"
+                >
+                  <use xlink:href="images/sprite.svg#icon-visa"></use>
+                </svg>
+              </li>
+              <li class="footer__card">
+                <svg
+                  class="footer__logo"
+                  width="34"
+                  height="22"
+                  aria-hidden="true"
+                >
+                  <use xlink:href="images/sprite.svg#icon-mc"></use>
+                </svg>
+              </li>
+              <li class="footer__card">
+                <svg
+                  class="footer__logo"
+                  width="66"
+                  height="19"
+                  aria-hidden="true"
+                >
+                  <use xlink:href="images/sprite.svg#icon-mir"></use>
+                </svg>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer__bottom">
+          <div class="footer__policy">
+            <a class="footer__policy-link" href="#"
+              >Политика обработки персональных данных</a
+            >
+            <a class="footer__policy-link" href="#"
+              >Политика конфиденциальности</a
+            >
+          </div>
+          <span class="footer__copyright">© ООО "Бриатон"</span>
+          <a class="footer__develop" href="https://affarts.ru/">
+            <span class="footer__develop-text">Дизайн сделан в</span>
+            <svg
+              class="footer__develop-logo"
+              width="62"
+              height="18"
+              aria-hidden="true"
+            >
+              <use xlink:href="images/sprite.svg#icon-affarts"></use>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </footer>
+    <script src="./js/vendor/swiper.js"></script>
+    <script src="./js/vendor/just-validate.js"></script>
+    <script src="./js/vendor/popprjs.min.js"></script>
+    <script src="./js/vendor/tippy.min.js"></script>
+    <script src="./js/main.js" type="module"></script>
+  </body>
+</html>
