@@ -3,6 +3,9 @@
     display: grid;
     grid-template-columns: 1fr 672px;
     gap: 69px;
+    @include vp-1023{
+      grid-template-columns: 1fr;
+    }
   }
 
   &__title {

@@ -101,6 +101,108 @@ export function initServiceCards() {
         includes: ["Кроссплатформенность", "Push-уведомления", "API"],
       },
     },
+    {
+      id: 5,
+      title: "UI/UX Дизайн",
+      description: "Проектирование интерфейсов и пользовательского опыта",
+      type: "ui/ux",
+      price: "от 40 000 ₽",
+      features: [
+        "Прототипирование",
+        "User Research",
+        "Аналитика",
+        "Wireframes",
+      ],
+      popular: true,
+      images: [
+        "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&h=400&fit=crop",
+      ],
+      details: {
+        timeline: "2-4 недели",
+        technologies: ["Figma", "Adobe XD", "Sketch", "InVision"],
+        includes: [
+          "Прототипы экранов",
+          "User Flow",
+          "Анализ конкурентов",
+          "Дизайн-система",
+        ],
+      },
+    },
+    {
+      id: 6,
+      title: "Дизайн в Figma",
+      description: "Создание дизайна сайтов и приложений в Figma",
+      type: "design",
+      price: "от 30 000 ₽",
+      features: ["Мокапы", "Интерактивные прототипы", "Дизайн-системы"],
+      popular: false,
+      images: [
+        "https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1545235617-9465d2a55698?w=600&h=400&fit=crop",
+      ],
+      details: {
+        timeline: "1-3 недели",
+        technologies: ["Figma", "Adobe Creative Suite"],
+        includes: [
+          "Полный дизайн проекта",
+          "Мокапы для презентации",
+          "Интерактивные прототипы",
+          "Готовые компоненты",
+        ],
+      },
+    },
+    {
+      id: 7,
+      title: "Сайт-визитка",
+      description: "Простой и эффективный сайт для персонального бренда",
+      type: "business-card",
+      price: "от 25 000 ₽",
+      features: ["Контакты", "Портфолио", "Блог", "Социальные сети"],
+      popular: true,
+      images: [
+        "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1545235617-9465d2a55698?w=600&h=400&fit=crop",
+      ],
+      details: {
+        timeline: "1-2 недели",
+        technologies: ["HTML/CSS", "JavaScript", "Static Site Generator"],
+        includes: [
+          "До 5 страниц",
+          "Адаптивный дизайн",
+          "Форма обратной связи",
+          "SEO базовая настройка",
+        ],
+      },
+    },
+    {
+      id: 8,
+      title: "Техническая поддержка",
+      description: "Постоянная поддержка и обслуживание сайтов",
+      type: "support",
+      price: "от 15 000 ₽/мес",
+      features: [
+        "Мониторинг",
+        "Резервное копирование",
+        "Обновления",
+        "Консультации",
+      ],
+      popular: false,
+      images: [
+        "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
+      ],
+      details: {
+        timeline: "Постоянно",
+        technologies: ["Мониторинг", "Backup системы", "Security"],
+        includes: [
+          "Ежемесячное обслуживание",
+          "Технические консультации",
+          "Обновление контента",
+          "Резервное копирование",
+        ],
+      },
+    },
   ];
 
   allServices = services;
@@ -860,6 +962,12 @@ function addSliderStyles() {
       margin-bottom: 15px;
       align-self: flex-start;
     }
+
+     .promo-badge--input {
+      background: linear-gradient(54.12deg, #FFFFFF 1.42%, #3499FF 88.51%);
+;
+    }
+
 
     /* Стили для модального окна */
     .service-modal {

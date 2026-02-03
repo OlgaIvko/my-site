@@ -1403,6 +1403,13 @@ button {
 .description__logo-link svg {
   height: 36px;
   width: 150px;
+  color: linear-gradient(
+    90deg,
+    #6651ea -11.84%,
+    #b2d9fc 11.82%,
+    #faeff8 49.46%,
+    #b2d9fc 100%
+  );
 }
 
 .description__phone {
@@ -2115,6 +2122,11 @@ button {
   grid-template-columns: 1fr 672px;
   gap: 69px;
 }
+@media (max-width: 1023px) {
+  .faq__wrapper {
+    grid-template-columns: 1fr;
+  }
+}
 .faq__title {
   margin: 0;
   font-size: 36px;
@@ -2267,18 +2279,22 @@ button {
 
 .footer {
   background-color: #1a365d;
-  padding: 44px 0;
+  padding: 60px 0 20px;
+  position: relative;
 }
 .footer__main {
   display: flex;
+  justify-content: center;
   margin: 0 0 64px 0;
 }
 .footer__logo-link {
-  margin: 0 136px 0 0;
+  position: absolute;
+  top: 3%;
+  left: 45%;
 }
-@media (max-width: 1150px) {
+@media (max-width: 767px) {
   .footer__logo-link {
-    margin: 0 50px 0 0;
+    left: 30%;
   }
 }
 .footer__menu {
@@ -2306,6 +2322,9 @@ button {
 }
 .footer__contact-link:not(:last-child) {
   margin: 0 0 12px 0;
+}
+.footer__social {
+  display: flex;
 }
 .footer__social-list {
   display: flex;
@@ -2338,7 +2357,7 @@ button {
   color: #9be198;
 }
 .footer__info {
-  margin: 0 0 0 auto;
+  /* margin: 0 0 0 auto; */
   display: flex;
   flex-direction: column;
   align-items: flex-end;

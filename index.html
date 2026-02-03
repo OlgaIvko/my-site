@@ -195,6 +195,9 @@
                   <button class="quick-btn" data-type="design">
                     🎨 Дизайн в Figma
                   </button>
+                  <button class="quick-btn" data-type="ui/ux">
+                    🎨 UI/UX дизайн
+                  </button>
                   <button class="quick-btn" data-type="landing">
                     🚀 Лендинги
                   </button>
@@ -221,7 +224,12 @@
         <div class="promo-with-form-container">
           <!-- Промо-карточка (ваш существующий код) -->
           <div class="promo-card-wrapper">
-            <div class="catalog__item catalog__item--promo">
+            <div
+              class="catalog__item catalog__item--promo"
+              data-id="promo"
+              data-type="promo"
+              data-promo="true"
+            >
               <div class="promo-card">
                 <!-- Левая часть - текст и описание -->
                 <div class="promo-card__content">
@@ -236,6 +244,32 @@
                       <span class="promo-feature__icon">✓</span>
                       <span class="promo-feature__text">Дизайн интерфейса</span>
                     </div>
+                    <div class="promo-feature">
+                      <span class="promo-feature__icon">✓</span>
+                      <span class="promo-feature__text"
+                        >Разработка функционала</span
+                      >
+                    </div>
+                    <div class="promo-feature">
+                      <span class="promo-feature__icon">✓</span>
+                      <span class="promo-feature__text"
+                        >Интеграция платежей</span
+                      >
+                    </div>
+                    <div class="promo-feature">
+                      <span class="promo-feature__icon">✓</span>
+                      <span class="promo-feature__text"
+                        >Техническая поддержка</span
+                      >
+                    </div>
+
+                    <span class="promo-badge promo-badge--input">
+                      <span style="margin-right: 12px">👤</span>Обучение и
+                      поддержка
+                    </span>
+                    <span class="promo-badge promo-badge--input">
+                      <span style="margin-right: 12px">⚙️</span>API интеграции
+                    </span>
                     <!-- остальные фичи -->
                   </div>
 
@@ -677,38 +711,28 @@
 
     <footer class="footer">
       <div class="container">
-        <div class="footer__main">
-          <a class="footer__logo-link" href="#">
-            <svg
-              class="footer__logo"
-              width="180"
-              height="33"
-              aria-hidden="true"
-            >
-              <use xlink:href="images/sprite.svg#icon-logo-black"></use>
-            </svg>
-          </a>
+        <a href="#" class="footer__logo-link">
+          <svg class="footer__logo" width="160" height="46" aria-hidden="true">
+            <use xlink:href="images/sprite.svg#icon-logo"></use>
+          </svg>
+        </a>
+        <!-- <div class="footer__main">
           <div class="footer__menu">
-            <div class="footer__box">
-              <div class="footer__contact">
-                <span class="footer__name">Адрес:</span>
-                <span class="footer__contact-link"
-                  >г. Москва, Нижний проезд, 25/3</span
-                >
-              </div>
-              <div class="footer__contact">
+            <!-- <div class="footer__box"> -->
+        <!-- <div class="footer__contact">
                 <span class="footer__name">Контакты:</span>
                 <a
                   class="footer__contact-link"
                   href="mailto:infobriaton@group.ru"
-                  >infobriaton@group.ru</a
+                  >tisenkoolga045@gmail.com</a
                 >
                 <a class="footer__contact-link" href="tel:+78002220037"
-                  >+7 (800) 222-00-37</a
+                  >+7 999-700-57-98</a
                 >
-              </div>
-            </div>
-            <div class="footer__social">
+              </div> -->
+        <!-- </div> -->
+        <!-- <div class="footer__social">
+
               <span class="footer__name">Присоединяйтесь к нам:</span>
               <ul class="footer__social-list">
                 <li class="footer__social-item">
@@ -724,9 +748,9 @@
                   <a class="footer__social-link" href="#">Вконтакте</a>
                 </li>
               </ul>
-            </div>
-          </div>
-          <div class="footer__info">
+            </div> -->
+        <!-- </div> -->
+        <!-- <div class="footer__info">
             <ul class="footer__cards">
               <li class="footer__card">
                 <svg
@@ -759,10 +783,14 @@
                 </svg>
               </li>
             </ul>
-          </div>
-        </div>
+          </div> -->
+        <!-- </div>  -->
 
         <div class="footer__bottom">
+          <div class="footer__contact">
+            <span class="footer__name">Адрес:</span>
+            <span class="footer__contact-link">г. Липецк ул, Гагарина 93</span>
+          </div>
           <div class="footer__policy">
             <a class="footer__policy-link" href="#"
               >Политика обработки персональных данных</a
@@ -772,17 +800,6 @@
             >
           </div>
           <span class="footer__copyright">© ООО "Бриатон"</span>
-          <a class="footer__develop" href="https://affarts.ru/">
-            <span class="footer__develop-text">Дизайн сделан в</span>
-            <svg
-              class="footer__develop-logo"
-              width="62"
-              height="18"
-              aria-hidden="true"
-            >
-              <use xlink:href="images/sprite.svg#icon-affarts"></use>
-            </svg>
-          </a>
         </div>
       </div>
     </footer>

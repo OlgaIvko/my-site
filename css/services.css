@@ -1396,7 +1396,8 @@
 }
 
 .promo-card--regular .promo-card__content {
-  background: #efd2ed;
+  /* background: #efd2ed; */
+  background: #d8dee5;
 }
 
 .video-wrapper {
@@ -1426,6 +1427,10 @@
   margin-bottom: 20px;
   backdrop-filter: blur(10px);
   align-self: flex-start;
+}
+
+.promo-badge--input {
+  background: linear-gradient(54.12deg, #eef6fe 1.42%, #3499ff 88.51%);
 }
 
 .promo-card__title {
@@ -1849,7 +1854,7 @@
 }
 
 .quick-btn.active {
-  background: #3b82f6;
+  background: #3499ff;
   color: white;
   border-color: #3b82f6;
 }
@@ -1910,11 +1915,6 @@
     font-size: 20px;
   }
 
-  .promo-badge {
-    font-size: 12px;
-    padding: 6px 12px;
-  }
-
   .promo-order-btn {
     padding: 12px 20px;
     font-size: 14px;
@@ -1956,4 +1956,38 @@ body.modal-open {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 10001;
+}
+
+/* Анимация появления карточек */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeInUp 0.3s ease forwards;
+}
+
+/* Счетчик услуг */
+.services-counter {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+}
+
+.services-counter span:first-child {
+  font-weight: bold;
+  color: #3b82f6;
+}
+
+.services-counter span:last-child {
+  font-weight: normal;
+  color: #666;
 }
