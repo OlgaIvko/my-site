@@ -1,12 +1,13 @@
-// js/main.js - финальная версия
+// js/main.js - исправленная версия
 
 import { initBurgerMenu } from "./components/burger-menu.js";
 import { initLocationDropdown } from "./components/location-dropdown.js";
 import { initServiceCards } from "./components/service-cards.js";
 import { initFilters } from "./components/filters.js";
 import { initQuickSelect } from "./components/quick-select.js";
-import { initOrderCalculation } from "./components/order-calc.js"; // ДОБАВЛЯЕМ
+import { initOrderCalculation } from "./components/order-calc.js";
 import { initCart } from "./components/cart.js";
+import { initFAQ } from "./components/faq.js";
 
 function initApp() {
   console.log("🚀 Запуск сайта веб-студии");
@@ -28,11 +29,14 @@ function initApp() {
     initQuickSelect();
     console.log("✅ Быстрый выбор");
 
-    initOrderCalculation(); // ДОБАВЛЯЕМ ЭТУ СТРОЧКУ
+    initOrderCalculation();
     console.log("✅ Заказ расчёта");
 
     initCart();
     console.log("✅ Корзина");
+
+    initFAQ(); // ИСПРАВЛЕНО: должен быть FAQ а не Корзина
+    console.log("✅ FAQ аккордеон");
 
     console.log("🎉 Всё работает!");
   } catch (error) {

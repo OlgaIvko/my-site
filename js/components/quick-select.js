@@ -1,4 +1,4 @@
-// js/components/quick-select.js - ОБНОВЛЕННАЯ ВЕРСИЯ С EMAIL
+// js/components/quick-select.js - ИСПРАВЛЕННАЯ ВЕРСИЯ
 
 export function initQuickSelect() {
   console.log("🎯 Инициализация быстрого выбора");
@@ -29,13 +29,34 @@ export function initQuickSelect() {
   console.log("✅ Быстрый выбор инициализирован");
 }
 
-// Инициализация кнопки "Начать проект"
+// Инициализация кнопки "Начать проект" - ОДНА ФУНКЦИЯ
 function initPromoOrderButton() {
   const promoButton = document.querySelector(".promo-order-btn");
   if (promoButton) {
-    promoButton.addEventListener("click", function (e) {
+    console.log("✅ Найдена кнопка 'Начать проект'");
+
+    // Удаляем старые обработчики
+    const newButton = promoButton.cloneNode(true);
+    promoButton.parentNode.replaceChild(newButton, promoButton);
+
+    // Добавляем новый обработчик
+    newButton.addEventListener("click", function (e) {
       e.preventDefault();
+      console.log("🖱️ Клик по кнопке 'Начать проект'");
       openPromoOrderForm();
+    });
+  } else {
+    console.warn("⚠️ Кнопка 'Начать проект' не найдена");
+  }
+}
+
+// Инициализация формы расчета
+function initCalculationForm() {
+  const form = document.getElementById("order-calculation-form");
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      submitCalculationForm(this);
     });
   }
 }
@@ -280,38 +301,6 @@ function sendToEmail(emailData) {
 
   // Открываем почтовый клиент пользователя
   window.location.href = mailtoLink;
-
-  // Также можно сделать fetch запрос на сервер для отправки
-  // sendToServer(emailData);
-}
-
-// Альтернатива: отправка через Formspree или другой сервис
-async function sendToServer(emailData) {
-  try {
-    const response = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        _replyto: emailData.to,
-        _subject: emailData.subject,
-        message: emailData.body,
-        service: emailData.service_type,
-        timestamp: new Date().toISOString(),
-      }),
-    });
-
-    if (response.ok) {
-      console.log("✅ Заявка отправлена на сервер");
-    } else {
-      console.warn("⚠️ Не удалось отправить на сервер, используем mailto");
-      sendToEmail(emailData); // Фолбэк на mailto
-    }
-  } catch (error) {
-    console.error("❌ Ошибка отправки:", error);
-    sendToEmail(emailData); // Фолбэк на mailto
-  }
 }
 
 // Показать уведомление
@@ -337,12 +326,216 @@ function showNotification(text, type = "info") {
   setTimeout(() => {
     notification.style.animation = "slideOut 0.3s ease";
     setTimeout(() => {
-      notification.parentNode?.removeChild(notification);
+      if (notification.parentNode) {
+        notification.parentNode.removeChild(notification);
+      }
     }, 300);
   }, 3000);
 }
 
-// Добавляем CSS анимации
+// Функция отправки формы расчета
+function submitCalculationForm(form) {
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData.entries());
+
+  // Валидация формы
+  if (!validateForm(data)) {
+    showNotification("Пожалуйста, заполните обязательные поля", "error");
+    return;
+  }
+
+  // Формируем данные для email
+  const emailData = {
+    to: "olyaly1589@yandex.ru",
+    subject: `Заявка на расчет стоимости: ${data.name}`,
+    body: `
+      ЗАЯВКА НА РАСЧЕТ СТОИМОСТИ
+      ==============================
+
+      КОНТАКТЫ КЛИЕНТА:
+      Имя: ${data.name}
+      Телефон: ${data.phone}
+      Email: ${data.email || "не указан"}
+
+      ОПИСАНИЕ ПРОЕКТА:
+      ${data.description || "Не указано"}
+
+      ==============================
+      Заявка отправлена с сайта
+      Дата: ${new Date().toLocaleString()}
+    `,
+  };
+
+  // Отправляем на почту
+  sendToEmail(emailData);
+
+  // Показываем уведомление об успехе
+  showNotification(
+    "Заявка отправлена! Проверьте ваш почтовый клиент.",
+    "success",
+  );
+
+  // Сбрасываем форму
+  form.reset();
+}
+
+// Валидация формы
+function validateForm(data) {
+  if (!data.name || data.name.trim().length < 2) {
+    return false;
+  }
+
+  if (!data.phone || !/^\+?[78][\d\- \(\)]{10,}$/.test(data.phone)) {
+    return false;
+  }
+
+  if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+    return false;
+  }
+
+  return true;
+}
+
+// Вспомогательная функция для проверки, нужно ли показывать карточку
+function shouldShowCard(card, filterType) {
+  const cardType = card.dataset.type;
+  const isPromo = card.dataset.promo === "true";
+
+  // Промо-карточка всегда показывается
+  if (isPromo) return true;
+
+  // Проверка по типу фильтра
+  switch (filterType) {
+    case "all":
+      return true;
+
+    case "popular":
+      // Проверяем наличие бейджа популярности
+      const hasBadge = card.querySelector(".promo-badge") !== null;
+      return hasBadge;
+
+    case "landing":
+      return cardType === "landing";
+
+    case "shop":
+      return cardType === "shop";
+
+    case "corporate":
+      return cardType === "corporate";
+
+    case "mobile":
+      return cardType === "mobile";
+
+    case "business-card":
+      return cardType === "business-card";
+
+    case "design":
+      return cardType === "design" || cardType === "ui/ux";
+
+    case "ui/ux":
+      return cardType === "ui/ux";
+
+    case "support":
+      return cardType === "support";
+
+    default:
+      return false;
+  }
+}
+
+// Применение быстрого фильтра
+function applyQuickFilter(filterType) {
+  console.log("🎯 Применяем фильтр:", filterType);
+
+  // Получаем все карточки услуг из .catalog__list
+  const serviceCards = document.querySelectorAll(
+    ".catalog__list .catalog__item",
+  );
+
+  if (!serviceCards.length) {
+    console.warn("❌ Карточки услуг не найдены в .catalog__list");
+    return;
+  }
+
+  // Применяем фильтр ко всем карточкам в списке
+  serviceCards.forEach((card) => {
+    if (shouldShowCard(card, filterType)) {
+      card.style.display = "";
+      card.classList.remove("filtered-out");
+    } else {
+      card.style.display = "none";
+      card.classList.add("filtered-out");
+    }
+  });
+
+  // Промо-карточка всегда видна (она вне .catalog__list)
+  const promoCard = document.querySelector('.catalog__item[data-promo="true"]');
+  if (promoCard) {
+    promoCard.style.display = "";
+    promoCard.classList.remove("filtered-out");
+  }
+
+  // Обновляем счетчик (не считая промо-карточку)
+  updateVisibleCount();
+
+  // Анимация появления
+  animateFilteredCards();
+}
+
+// Обновление счетчика видимых карточек
+function updateVisibleCount() {
+  // Считаем только обычные карточки из списка (без промо)
+  const visibleCards = document.querySelectorAll(
+    '.catalog__list .catalog__item:not([style*="display: none"])',
+  ).length;
+
+  const totalCards = document.querySelectorAll(
+    ".catalog__list .catalog__item",
+  ).length;
+
+  console.log(`📊 Показано: ${visibleCards} из ${totalCards} услуг`);
+
+  // Обновляем счетчик в интерфейсе
+  updateCounterUI(visibleCards, totalCards);
+}
+
+// Обновление UI счетчика
+function updateCounterUI(visible, total) {
+  const counterElement = document.querySelector(".services-counter");
+  const quickSelectContainer = document.querySelector(".catalog__quick-select");
+
+  if (quickSelectContainer) {
+    if (!counterElement) {
+      const counter = document.createElement("div");
+      counter.className = "services-counter";
+      counter.innerHTML = `Показано: <span class="counter-current">${visible}</span> из <span class="counter-total">${total}</span> услуг`;
+      quickSelectContainer.appendChild(counter);
+    } else {
+      counterElement.innerHTML = `Показано: <span class="counter-current">${visible}</span> из <span class="counter-total">${total}</span> услуг`;
+    }
+  }
+}
+
+// Анимация отфильтрованных карточек
+function animateFilteredCards() {
+  const visibleCards = document.querySelectorAll(
+    '.catalog__list .catalog__item:not([style*="display: none"])',
+  );
+
+  // Сначала сбрасываем все анимации
+  visibleCards.forEach((card) => {
+    card.classList.remove("fade-in");
+    void card.offsetWidth; // Триггер для перезапуска анимации
+  });
+
+  // Затем добавляем анимацию с задержкой
+  visibleCards.forEach((card, index) => {
+    card.style.animationDelay = `${index * 0.05}s`;
+    card.classList.add("fade-in");
+  });
+}
+
+// Добавляем CSS для анимаций
 (function addStyles() {
   if (document.getElementById("quick-select-styles")) return;
 
@@ -385,9 +578,49 @@ function showNotification(text, type = "info") {
     .fade-in {
       animation: fadeInUp 0.3s ease forwards;
     }
+
+    .services-counter {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #666;
+      text-align: center;
+      padding: 8px 12px;
+      background: #f5f5f5;
+      border-radius: 6px;
+      border: 1px solid #e0e0e0;
+      display: inline-block;
+    }
+
+    .services-counter .counter-current {
+      font-weight: bold;
+      color: #3b82f6;
+    }
+
+    .services-counter .counter-total {
+      font-weight: 600;
+      color: #333;
+    }
   `;
 
   document.head.appendChild(style);
 })();
 
-// Остальные функции остаются без изменений...
+// Экспортируем для отладки
+window.debugQuickSelect = {
+  testFilters: function () {
+    console.log("🔍 Проверяем фильтры...");
+    const buttons = document.querySelectorAll(".quick-btn");
+    console.log(`Найдено кнопок: ${buttons.length}`);
+
+    buttons.forEach((btn, i) => {
+      console.log(`Кнопка ${i}: ${btn.textContent}, type: ${btn.dataset.type}`);
+      btn.addEventListener("click", function () {
+        console.log(`Клик по кнопке: ${this.dataset.type}`);
+      });
+    });
+  },
+  testApplyFilter: function (type) {
+    console.log(`🔍 Тест фильтра: ${type}`);
+    applyQuickFilter(type);
+  },
+};

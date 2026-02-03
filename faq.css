@@ -1,0 +1,242 @@
+.faq {
+  padding: 80px 0;
+  background: #f8f9fa;
+}
+@media (max-width: 768px) {
+  .faq {
+    padding: 60px 0;
+  }
+}
+@media (max-width: 480px) {
+  .faq {
+    padding: 40px 0;
+  }
+}
+
+.faq__wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.faq__title {
+  font-size: 36px;
+  font-weight: 700;
+  text-align: center;
+  color: #1f2937;
+  margin-bottom: 50px;
+  line-height: 1.2;
+}
+@media (max-width: 768px) {
+  .faq__title {
+    font-size: 28px;
+    margin-bottom: 40px;
+  }
+}
+@media (max-width: 480px) {
+  .faq__title {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+}
+
+.accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.accordion__element {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.accordion__element:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+.accordion__element.active {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.accordion__btn {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+@media (max-width: 768px) {
+  .accordion__btn {
+    padding: 20px 24px;
+  }
+}
+@media (max-width: 480px) {
+  .accordion__btn {
+    padding: 16px 20px;
+  }
+}
+.accordion__btn:hover {
+  background: #f9fafb;
+}
+.accordion__element.active .accordion__btn {
+  background: #f3f4f6;
+}
+
+.accordion__btn-text {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  flex: 1;
+  line-height: 1.4;
+}
+@media (max-width: 768px) {
+  .accordion__btn-text {
+    font-size: 16px;
+  }
+}
+@media (max-width: 480px) {
+  .accordion__btn-text {
+    font-size: 15px;
+  }
+}
+
+.accordion__btn-icon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  margin-left: 20px;
+  flex-shrink: 0;
+}
+.accordion__btn-icon::before, .accordion__btn-icon::after {
+  content: "";
+  position: absolute;
+  background: #3b82f6;
+  transition: all 0.3s ease;
+}
+.accordion__btn-icon::before {
+  width: 100%;
+  height: 2px;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+.accordion__btn-icon::after {
+  width: 2px;
+  height: 100%;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+}
+.accordion__element.active .accordion__btn-icon::after {
+  transform: translateX(-50%) rotate(90deg);
+  opacity: 0;
+}
+
+.accordion__content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+.accordion__element.active .accordion__content {
+  max-height: 1000px;
+}
+
+.accordion__inner {
+  padding: 0 32px 24px;
+}
+@media (max-width: 768px) {
+  .accordion__inner {
+    padding: 0 24px 20px;
+  }
+}
+@media (max-width: 480px) {
+  .accordion__inner {
+    padding: 0 20px 16px;
+  }
+}
+
+.accordion__text {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #4b5563;
+}
+.accordion__text p {
+  margin-bottom: 16px;
+}
+.accordion__text p:last-child {
+  margin-bottom: 0;
+}
+@media (max-width: 480px) {
+  .accordion__text {
+    font-size: 15px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.accordion__element.active .accordion__inner {
+  animation: fadeIn 0.3s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  .faq {
+    background: #1f2937;
+  }
+  .faq__title {
+    color: #f9fafb;
+  }
+  .accordion__element {
+    background: #374151;
+    border-color: #4b5563;
+  }
+  .accordion__btn:hover {
+    background: #4b5563;
+  }
+  .accordion__element.active .accordion__btn {
+    background: #4b5563;
+  }
+  .accordion__btn-text {
+    color: #f9fafb;
+  }
+  .accordion__btn-icon::before,
+  .accordion__btn-icon::after {
+    background: #60a5fa;
+  }
+  .accordion__text {
+    color: #d1d5db;
+  }
+}
+@media print {
+  .faq {
+    background: none;
+    padding: 40px 0;
+  }
+  .accordion__element {
+    box-shadow: none;
+    border: 1px solid #ccc;
+    -moz-column-break-inside: avoid;
+         break-inside: avoid;
+  }
+  .accordion__btn-icon {
+    display: none;
+  }
+  .accordion__content {
+    max-height: none !important;
+    display: block !important;
+  }
+}/*# sourceMappingURL=faq.css.map */
