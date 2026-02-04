@@ -1154,7 +1154,7 @@
 }
 
 /* Адаптивность */
-@media (max-width: 768px) {
+@media (max-width: 1025px) {
   .catalog__list {
     grid-template-columns: 1fr;
     gap: 15px;
@@ -1371,17 +1371,16 @@
 
   overflow: hidden;
 }
+@media (max-width: 1025px) {
+  .promo-card-video {
+    grid-template-columns: 1fr;
+  }
+}
 
 @media (max-width: 768px) {
   .promo-card {
     grid-template-columns: 1fr;
     border-radius: 16px;
-  }
-
-  .promo-card-video {
-    grid-template-columns: 1fr;
-    /* height: 100%; */
-    border-bottom-left-radius: 16px;
   }
 }
 

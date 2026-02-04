@@ -1,7 +1,5 @@
 // js/main.js - исправленная версия
 
-import { initBurgerMenu } from "./components/burger-menu.js";
-import { initLocationDropdown } from "./components/location-dropdown.js";
 import { initServiceCards } from "./components/service-cards.js";
 import { initFilters } from "./components/filters.js";
 import { initQuickSelect } from "./components/quick-select.js";
@@ -13,13 +11,6 @@ function initApp() {
   console.log("🚀 Запуск сайта веб-студии");
 
   try {
-    // Основные компоненты
-    initBurgerMenu();
-    console.log("✅ Бургер-меню");
-
-    // initLocationDropdown();
-    // console.log("✅ Выбор города");
-
     initServiceCards();
     console.log("✅ Услуги загружены");
 
