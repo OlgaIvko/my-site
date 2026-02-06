@@ -2389,6 +2389,7 @@ button {
 
 .footer {
   background-color: #1a365d;
+  background: #d8dee5;
   padding: 60px 0 20px;
   position: relative;
 }
@@ -2416,7 +2417,7 @@ button {
   margin: 0 0 40px 0;
 }
 .footer__name {
-  color: #ffffff;
+  color: #000;
   font-size: 16px;
   font-weight: 600;
   line-height: 22.4px;
@@ -2424,7 +2425,7 @@ button {
   display: block;
 }
 .footer__contact-link {
-  color: #ffffff;
+  color: #000;
   font-size: 16px;
   font-weight: 400;
   line-height: 22.4px;
