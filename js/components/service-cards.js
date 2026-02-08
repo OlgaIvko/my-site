@@ -8,7 +8,7 @@ let currentImageIndex = 0;
 async function checkServerAvailability() {
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2000);
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
 
     const response = await fetch("http://localhost:3001/api/health", {
       method: "GET",
@@ -31,7 +31,7 @@ async function getServicesData() {
   try {
     console.log("🔄 Пробую основной сервер...");
     const response = await fetch("http://localhost:3001/api/services", {
-      signal: AbortSignal.timeout(3000),
+      signal: AbortSignal.timeout(5000),
     });
 
     if (response.ok) {
@@ -47,7 +47,7 @@ async function getServicesData() {
     console.log("❌ Ошибка загрузки с сервера:", error.message);
   }
 
-  // 2. Пробуем кэш
+  // 2. Пробуем кэш (без демо-данных)
   console.log("🔄 Пробую кэш...");
   const cachedData = getCachedServicesData();
   if (cachedData && cachedData.length > 0) {
@@ -55,9 +55,9 @@ async function getServicesData() {
     return cachedData;
   }
 
-  // 3. Демо-данные как последний вариант
-  console.log("⚠️ Использую демо-данные");
-  return getDemoServices();
+  // 3. Нет данных - возвращаем пустой массив
+  console.log("📭 Нет данных в сервере и кэше");
+  return [];
 }
 
 // Кэширование данных в localStorage
@@ -132,7 +132,7 @@ async function loadServicesFromAdmin() {
 
     const data = await getServicesData();
 
-    console.log("✅ Данные загружены:", data.length, "услуг");
+    console.log("✅ Данные получены:", data.length, "услуг");
 
     if (data && data.length > 0) {
       return data.map((service, index) => {
@@ -170,11 +170,11 @@ async function loadServicesFromAdmin() {
       });
     }
 
-    console.log("⚠️ Нет данных в админке");
-    return getDemoServices();
+    console.log("⚠️ Нет данных");
+    return [];
   } catch (error) {
     console.error("❌ Ошибка загрузки данных:", error);
-    return getDemoServices();
+    return [];
   }
 }
 
@@ -315,6 +315,20 @@ function renderServiceCards(services) {
   // Очищаем контейнер
   container.innerHTML = "";
 
+  // Если нет услуг, показываем сообщение
+  if (services.length === 0) {
+    container.innerHTML = `
+      <div class="no-services-message" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+        <h3>📭 Услуги временно недоступны</h3>
+        <p>Данные об услугах загружаются. Пожалуйста, попробуйте позже.</p>
+        <button onclick="window.location.reload()" style="margin-top: 20px; padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 5px; cursor: pointer;">
+          Обновить страницу
+        </button>
+      </div>
+    `;
+    return;
+  }
+
   // Рендерим каждую карточку
   services.forEach((service) => {
     const cardHTML = createServiceCardHTML(service);
@@ -341,67 +355,9 @@ export async function initServiceCards() {
         <div class="loading-state">
             <div class="spinner"></div>
             <p>Загрузка услуг...</p>
-            <p class="loading-hint">Проверяем подключение к серверу</p>
+            <p class="loading-hint">Подключаемся к серверу</p>
         </div>
     `;
-
-  // Стили для индикатора загрузки
-  if (!document.getElementById("loading-styles")) {
-    const style = document.createElement("style");
-    style.id = "loading-styles";
-    style.textContent = `
-            .loading-state {
-                grid-column: 1 / -1;
-                text-align: center;
-                padding: 40px;
-                color: #666;
-            }
-            .spinner {
-                width: 40px;
-                height: 40px;
-                border: 4px solid #f3f3f6;
-                border-top: 4px solid #3498db;
-                border-radius: 50%;
-                animation: spin 1s linear infinite;
-                margin: 0 auto 20px;
-            }
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-            .loading-hint {
-                font-size: 12px;
-                color: #999;
-                margin-top: 10px;
-            }
-            .connection-status {
-                position: fixed;
-                top: 10px;
-                right: 10px;
-                padding: 5px 10px;
-                border-radius: 4px;
-                font-size: 12px;
-                z-index: 1000;
-                background: rgba(0,0,0,0.7);
-                color: white;
-            }
-            .connection-status.online {
-                background: #4CAF50;
-            }
-            .connection-status.offline {
-                background: #f44336;
-            }
-            .cache-badge {
-                background: #FF9800;
-                color: white;
-                padding: 2px 6px;
-                border-radius: 3px;
-                font-size: 10px;
-                margin-left: 5px;
-            }
-        `;
-    document.head.appendChild(style);
-  }
 
   // Загружаем данные
   allServices = await loadServicesFromAdmin();
@@ -411,26 +367,7 @@ export async function initServiceCards() {
   // Показываем статус подключения
   showConnectionStatus();
 
-  // Если нет данных, показываем сообщение
-  if (allServices.length === 0) {
-    container.innerHTML = `
-            <div class="no-services" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
-                <h3>🚫 Нет доступных услуг</h3>
-                <p>Не удалось загрузить данные</p>
-                <div style="margin-top: 20px;">
-                    <button onclick="location.reload()" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">
-                        Обновить страницу
-                    </button>
-                    <button onclick="window.syncData()" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
-                        Попробовать снова
-                    </button>
-                </div>
-            </div>
-        `;
-    return;
-  }
-
-  // Рендерим карточки
+  // Рендерим карточки (даже если пустой массив)
   renderServiceCards(allServices);
 
   // Создаем модальное окно
@@ -444,10 +381,6 @@ export async function initServiceCards() {
 
   console.log("✅ Карточки инициализированы");
 }
-
-// ============ МОДАЛЬНОЕ ОКНО ============
-
-// Создание модального окна
 function createModal() {
   if (document.getElementById("serviceModal")) return;
 
@@ -1664,7 +1597,6 @@ export function addSyncButton() {
 
 // Экспорт функций
 
-// Глобальные функции
 window.initServiceCards = initServiceCards;
 window.refreshServices = refreshServices;
 window.syncData = refreshServices;

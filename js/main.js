@@ -14,7 +14,7 @@ async function initApp() {
   try {
     // Инициализируем компоненты
     await initServiceCards();
-    console.log("✅ Услуги загружены");
+    console.log("✅ Модуль услуг загружен");
 
     // Добавляем кнопку синхронизации
     addSyncButton();
@@ -34,32 +34,12 @@ async function initApp() {
     initFAQ();
     console.log("✅ FAQ аккордеон");
 
-    console.log("🎉 Всё работает!");
+    console.log("🎉 Приложение запущено!");
   } catch (error) {
     console.error("❌ Ошибка при инициализации:", error);
 
-    // Показываем сообщение об ошибке
-    const errorDiv = document.createElement("div");
-    errorDiv.style.cssText = `
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            right: 20px;
-            background: #ff6b6b;
-            color: white;
-            padding: 15px;
-            border-radius: 5px;
-            z-index: 10000;
-            text-align: center;
-        `;
-    errorDiv.innerHTML = `
-            <strong>⚠️ Внимание</strong>
-            <p>Не удалось загрузить данные. Проверьте подключение к интернету.</p>
-            <button onclick="location.reload()" style="margin-top: 10px; padding: 5px 15px; background: white; color: #ff6b6b; border: none; border-radius: 3px; cursor: pointer;">
-                Обновить страницу
-            </button>
-        `;
-    document.body.appendChild(errorDiv);
+    // Не показываем сообщение об ошибке, так как initServiceCards
+    // сам показывает сообщение при отсутствии данных
   }
 }
 
