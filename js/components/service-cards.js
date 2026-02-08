@@ -2,8 +2,112 @@
 
 let allServices = [];
 let currentModalService = null;
+let currentImageIndex = 0;
 
-// Метка типа услуги - выносим вверх, чтобы была доступна
+// Функция проверки доступности сервера
+async function checkServerAvailability() {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+    const response = await fetch("http://localhost:3001/api/health", {
+      method: "GET",
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+    return response.ok;
+  } catch (error) {
+    console.log("⚠️ Сервер недоступен:", error.message);
+    return false;
+  }
+}
+
+// Функция получения данных с fallback механизмом
+async function getServicesData() {
+  console.log("📦 Получаю данные услуг...");
+
+  // 1. Пробуем основной сервер
+  try {
+    console.log("🔄 Пробую основной сервер...");
+    const response = await fetch("http://localhost:3001/api/services", {
+      signal: AbortSignal.timeout(3000),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(`✅ Данные с сервера: ${data.length} услуг`);
+
+      // Сохраняем в кэш
+      cacheServicesData(data);
+
+      return data;
+    }
+  } catch (error) {
+    console.log("❌ Ошибка загрузки с сервера:", error.message);
+  }
+
+  // 2. Пробуем кэш
+  console.log("🔄 Пробую кэш...");
+  const cachedData = getCachedServicesData();
+  if (cachedData && cachedData.length > 0) {
+    console.log(`✅ Данные из кэша: ${cachedData.length} услуг`);
+    return cachedData;
+  }
+
+  // 3. Демо-данные как последний вариант
+  console.log("⚠️ Использую демо-данные");
+  return getDemoServices();
+}
+
+// Кэширование данных в localStorage
+function cacheServicesData(data) {
+  try {
+    localStorage.setItem("services_cache", JSON.stringify(data));
+    localStorage.setItem("cache_timestamp", Date.now().toString());
+    localStorage.setItem("cache_source", "server");
+    console.log("💾 Данные сохранены в кэш");
+  } catch (error) {
+    console.error("❌ Ошибка сохранения в кэш:", error);
+  }
+}
+
+// Получение данных из кэша
+function getCachedServicesData() {
+  try {
+    const cached = localStorage.getItem("services_cache");
+    const timestamp = localStorage.getItem("cache_timestamp");
+    const source = localStorage.getItem("cache_source") || "unknown";
+
+    if (!cached || !timestamp) {
+      console.log("📭 Кэш пуст");
+      return null;
+    }
+
+    // Проверяем свежесть кэша (максимум 24 часа)
+    const cacheAge = Date.now() - parseInt(timestamp);
+    const maxAge = 24 * 60 * 60 * 1000; // 24 часа
+
+    if (cacheAge > maxAge) {
+      console.log("🕒 Кэш устарел");
+      localStorage.removeItem("services_cache");
+      localStorage.removeItem("cache_timestamp");
+      localStorage.removeItem("cache_source");
+      return null;
+    }
+
+    const data = JSON.parse(cached);
+    console.log(
+      `📅 Кэш (${source}, ${Math.round(cacheAge / 1000 / 60)} мин назад): ${data.length} услуг`,
+    );
+    return data;
+  } catch (error) {
+    console.error("❌ Ошибка чтения кэша:", error);
+    return null;
+  }
+}
+
+// Метка типа услуги
 function getServiceTypeLabel(type) {
   const labels = {
     landing: "Лендинг",
@@ -15,212 +119,187 @@ function getServiceTypeLabel(type) {
     development: "Разработка",
     branding: "Брендинг",
     apps: "Приложения",
+    "business-card": "Сайт-визитка",
+    "ui/ux": "UI/UX Дизайн",
   };
   return labels[type] || type;
 }
 
-export function initServiceCards() {
-  console.log("🛠️ Инициализация карточек услуг...");
+// Загрузка данных из админки
+async function loadServicesFromAdmin() {
+  try {
+    console.log("📡 Загружаю данные из админки...");
 
-  // Проверяем наличие контейнера
-  const container = document.querySelector(".catalog__list");
-  console.log("Найден контейнер:", container);
+    const data = await getServicesData();
 
-  if (!container) {
-    console.error("❌ Контейнер .catalog__list не найден!");
-    return;
+    console.log("✅ Данные загружены:", data.length, "услуг");
+
+    if (data && data.length > 0) {
+      return data.map((service, index) => {
+        return {
+          id: service.id || index + 1,
+          title: service.title || "Новая услуга",
+          description: service.description || "",
+          type: service.type || "development",
+          price: service.price || "от 0 ₽",
+          features: Array.isArray(service.features)
+            ? service.features
+            : service.features
+              ? [service.features]
+              : ["Базовый функционал"],
+          popular: service.popular || false,
+          images:
+            Array.isArray(service.images) && service.images.length > 0
+              ? service.images
+              : service.image
+                ? [service.image]
+                : [
+                    "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop",
+                  ],
+          details: {
+            timeline:
+              service.timeline || service.details?.timeline || "2-4 недели",
+            technologies: Array.isArray(service.technologies)
+              ? service.technologies
+              : service.details?.technologies || ["HTML/CSS", "JavaScript"],
+            includes: Array.isArray(service.includes)
+              ? service.includes
+              : service.details?.includes || ["Базовый набор функций"],
+          },
+        };
+      });
+    }
+
+    console.log("⚠️ Нет данных в админке");
+    return getDemoServices();
+  } catch (error) {
+    console.error("❌ Ошибка загрузки данных:", error);
+    return getDemoServices();
   }
+}
 
-  const services = [
-    {
-      id: 1,
-      title: "Разработка лендинга",
-      description: "Одностраничный сайт для быстрого запуска бизнеса",
-      type: "landing",
-      price: "от 50 000 ₽",
-      features: ["Дизайн и верстка", "Адаптивность", "SEO-оптимизация"],
-      popular: true,
-      images: ["images/prilojenie.png", "images/prilojenie.png"],
-      details: {
-        timeline: "2-3 недели",
-        technologies: ["HTML5/CSS3", "JavaScript", "WordPress"],
-        includes: ["UI/UX дизайн", "Мобильная версия", "SEO базовая"],
-      },
-    },
-    {
-      id: 2,
-      title: "Интернет-магазин",
-      description: "Полнофункциональный магазин с корзиной и оплатой",
-      type: "shop",
-      price: "от 150 000 ₽",
-      features: ["Каталог товаров", "Корзина и оплата", "Личный кабинет"],
-      popular: true,
-      images: [
-        "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop&auto=format&fit=crop&q=80",
-      ],
-      details: {
-        timeline: "4-6 недель",
-        technologies: ["React", "Node.js", "MongoDB"],
-        includes: ["Каталог + фильтры", "Система оплаты", "Личный кабинет"],
-      },
-    },
-    {
-      id: 3,
-      title: "Корпоративный сайт",
-      description: "Многостраничный сайт для компаний",
-      type: "corporate",
-      price: "от 200 000 ₽",
-      features: ["CMS система", "Новостной блок", "Админ-панель"],
-      popular: false,
-      images: [
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
-      ],
-      details: {
-        timeline: "5-8 недель",
-        technologies: ["PHP", "MySQL", "Laravel"],
-        includes: ["Многостраничность", "Новостной блок", "Админ-панель"],
-      },
-    },
-    {
-      id: 4,
-      title: "Мобильное приложение",
-      description: "Приложение для iOS и Android",
-      type: "mobile",
-      price: "от 300 000 ₽",
-      features: ["iOS и Android", "Push-уведомления", "API интеграция"],
-      popular: true,
-      images: [
-        "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
-      ],
-      details: {
-        timeline: "6-10 недель",
-        technologies: ["React Native", "iOS", "Android"],
-        includes: ["Кроссплатформенность", "Push-уведомления", "API"],
-      },
-    },
-    {
-      id: 5,
-      title: "UI/UX Дизайн",
-      description: "Проектирование интерфейсов и пользовательского опыта",
-      type: "ui/ux",
-      price: "от 40 000 ₽",
-      features: [
-        "Прототипирование",
-        "User Research",
-        "Аналитика",
-        "Wireframes",
-      ],
-      popular: true,
-      images: [
-        "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&h=400&fit=crop",
-      ],
-      details: {
-        timeline: "2-4 недели",
-        technologies: ["Figma", "Adobe XD", "Sketch", "InVision"],
-        includes: [
-          "Прототипы экранов",
-          "User Flow",
-          "Анализ конкурентов",
-          "Дизайн-система",
-        ],
-      },
-    },
-    {
-      id: 6,
-      title: "Дизайн в Figma",
-      description: "Создание дизайна сайтов и приложений в Figma",
-      type: "design",
-      price: "от 30 000 ₽",
-      features: ["Мокапы", "Интерактивные прототипы", "Дизайн-системы"],
-      popular: false,
-      images: [
-        "https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1545235617-9465d2a55698?w=600&h=400&fit=crop",
-      ],
-      details: {
-        timeline: "1-3 недели",
-        technologies: ["Figma", "Adobe Creative Suite"],
-        includes: [
-          "Полный дизайн проекта",
-          "Мокапы для презентации",
-          "Интерактивные прототипы",
-          "Готовые компоненты",
-        ],
-      },
-    },
-    {
-      id: 7,
-      title: "Сайт-визитка",
-      description: "Простой и эффективный сайт для персонального бренда",
-      type: "business-card",
-      price: "от 25 000 ₽",
-      features: ["Контакты", "Портфолио", "Блог", "Социальные сети"],
-      popular: true,
-      images: [
-        "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1545235617-9465d2a55698?w=600&h=400&fit=crop",
-      ],
-      details: {
-        timeline: "1-2 недели",
-        technologies: ["HTML/CSS", "JavaScript", "Static Site Generator"],
-        includes: [
-          "До 5 страниц",
-          "Адаптивный дизайн",
-          "Форма обратной связи",
-          "SEO базовая настройка",
-        ],
-      },
-    },
-    {
-      id: 8,
-      title: "Техническая поддержка",
-      description: "Постоянная поддержка и обслуживание сайтов",
-      type: "support",
-      price: "от 15 000 ₽/мес",
-      features: [
-        "Мониторинг",
-        "Резервное копирование",
-        "Обновления",
-        "Консультации",
-      ],
-      popular: false,
-      images: [
-        "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
-      ],
-      details: {
-        timeline: "Постоянно",
-        technologies: ["Мониторинг", "Backup системы", "Security"],
-        includes: [
-          "Ежемесячное обслуживание",
-          "Технические консультации",
-          "Обновление контента",
-          "Резервное копирование",
-        ],
-      },
-    },
-  ];
+// Шаблон карточки услуги
+function createServiceCardHTML(service) {
+  const title =
+    service.title && service.title.length > 30
+      ? service.title.substring(0, 30) + "..."
+      : service.title || "Новая услуга";
 
-  allServices = services;
-  console.log("Сервисы загружены:", services.length);
+  const description =
+    service.description && service.description.length > 80
+      ? service.description.substring(0, 80) + "..."
+      : service.description || "";
 
-  // Рендерим карточки
-  renderServiceCards(services);
+  // Главное изображение для превью
+  const mainImage =
+    service.images && service.images[0]
+      ? service.images[0]
+      : "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop";
 
-  // Создаем модальное окно
-  createModal();
+  const moreImagesCount =
+    service.images && service.images.length > 1 ? service.images.length - 1 : 0;
 
-  // Настраиваем обработчики
-  setupEventListeners();
+  const featuresHTML =
+    service.features && service.features.length > 0
+      ? service.features
+          .slice(0, 2)
+          .map(
+            (feature) =>
+              `<span class="service-feature">${feature && feature.length > 15 ? feature.substring(0, 15) + "..." : feature || "Фича"}</span>`,
+          )
+          .join("")
+      : '<span class="service-feature">Базовый функционал</span>';
 
-  // Добавляем стили
-  addSliderStyles();
+  const moreFeaturesHTML =
+    service.features && service.features.length > 2
+      ? `<span class="service-feature-more">+${service.features.length - 2} ещё</span>`
+      : "";
 
-  console.log("✅ Карточки инициализированы");
+  const badgeHTML = service.popular
+    ? '<span class="promo-badge">🔥 Популярно</span>'
+    : "";
+
+  return `
+    <li class="catalog__item catalog__item--regular" data-type="${service.type || "development"}" data-id="${service.id || Date.now()}">
+      <div class="promo-card promo-card--regular">
+        <!-- Левая часть - текстовая -->
+        <div class="promo-card__content promo-card__content--regular">
+          ${badgeHTML}
+
+          <h2 class="promo-card__title promo-card__title--regular" title="${service.title || "Услуга"}">
+            ${title}
+          </h2>
+
+          <p class="promo-card__description promo-card__description--regular" title="${service.description || ""}">
+            ${description}
+          </p>
+
+          <div class="promo-features promo-features--regular">
+            <div class="service-features-wrapper">
+              <div class="service-features">
+                ${featuresHTML}
+                ${moreFeaturesHTML}
+              </div>
+            </div>
+          </div>
+
+          <div class="promo-card__cta promo-card__cta--regular">
+            <div class="price-wrapper">
+              <div class="current-price">${service.price || "от 0 ₽"}</div>
+              <span class="service-type">
+                ${getServiceTypeLabel(service.type || "development")}
+              </span>
+            </div>
+
+            <div class="card-buttons">
+              <button class="product-card__link btn btn--primary details-btn" data-id="${service.id || Date.now()}">
+                <span class="btn__text">Подробнее</span>
+              </button>
+
+              <button class="telegram-order-btn" data-id="${service.id || Date.now()}" data-title="${service.title || "Услуга"}">
+                <svg width="14" height="14">
+                  <use xlink:href="images/sprite.svg#icon-telegram"></use>
+                </svg>
+                <span>Заказать</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Правая часть - большое изображение -->
+        <div class="promo-card__visual promo-card__visual--regular">
+          <div class="service-image-container" data-id="${service.id || Date.now()}">
+            <img src="${mainImage}"
+                 alt="${service.title || "Услуга"}"
+                 class="service-main-image"
+                 loading="lazy"
+                 onerror="this.src='https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&h=400&fit=crop'">
+
+            ${
+              moreImagesCount > 0
+                ? `
+              <div class="image-counter">
+                <svg width="16" height="16">
+                  <use xlink:href="images/sprite.svg#icon-images"></use>
+                </svg>
+                +${moreImagesCount}
+              </div>
+            `
+                : ""
+            }
+
+            <div class="image-overlay">
+              <button class="zoom-btn" data-id="${service.id || Date.now()}" aria-label="Увеличить изображение">
+                <svg width="24" height="24">
+                  <use xlink:href="images/sprite.svg#icon-zoom"></use>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+  `;
 }
 
 // Рендеринг карточек
@@ -245,122 +324,128 @@ function renderServiceCards(services) {
   console.log(`✅ Отрендерено ${services.length} карточек`);
 }
 
-// Шаблон карточки
-function createServiceCardHTML(service) {
-  const title =
-    service.title.length > 30
-      ? service.title.substring(0, 30) + "..."
-      : service.title;
+// Обновленная initServiceCards
+export async function initServiceCards() {
+  console.log("🛠️ Инициализация карточек услуг...");
 
-  const description =
-    service.description.length > 80
-      ? service.description.substring(0, 80) + "..."
-      : service.description;
+  const container = document.querySelector(".catalog__list");
+  console.log("Найден контейнер:", container);
 
-  // Главное изображение для превью
-  const mainImage = service.images[0];
-  const moreImagesCount =
-    service.images.length > 1 ? service.images.length - 1 : 0;
+  if (!container) {
+    console.error("❌ Контейнер .catalog__list не найден!");
+    return;
+  }
 
-  const featuresHTML = service.features
-    .slice(0, 2)
-    .map(
-      (feature) =>
-        `<span class="service-feature">${feature.length > 15 ? feature.substring(0, 15) + "..." : feature}</span>`,
-    )
-    .join("");
-
-  const moreFeaturesHTML =
-    service.features.length > 2
-      ? `<span class="service-feature-more">+${service.features.length - 2} ещё</span>`
-      : "";
-
-  const badgeHTML = service.popular
-    ? '<span class="promo-badge">🔥 Популярно</span>'
-    : "";
-
-  return `
-    <li class="catalog__item catalog__item--regular" data-type="${service.type}" data-id="${service.id}">
-      <div class="promo-card promo-card--regular">
-        <!-- Левая часть - текстовая -->
-        <div class="promo-card__content promo-card__content--regular">
-          ${badgeHTML}
-
-          <h2 class="promo-card__title promo-card__title--regular" title="${service.title}">
-            ${title}
-          </h2>
-
-          <p class="promo-card__description promo-card__description--regular" title="${service.description}">
-            ${description}
-          </p>
-
-          <div class="promo-features promo-features--regular">
-            <div class="service-features-wrapper">
-              <div class="service-features">
-                ${featuresHTML}
-                ${moreFeaturesHTML}
-              </div>
-            </div>
-          </div>
-
-          <div class="promo-card__cta promo-card__cta--regular">
-            <div class="price-wrapper">
-              <div class="current-price">${service.price}</div>
-              <span class="service-type">
-                ${getServiceTypeLabel(service.type)}
-              </span>
-            </div>
-
-            <div class="card-buttons">
-              <button class="product-card__link btn btn--primary details-btn" data-id="${service.id}">
-                <span class="btn__text">Подробнее</span>
-              </button>
-
-              <button class="telegram-order-btn" data-id="${service.id}" data-title="${service.title}">
-                <svg width="14" height="14">
-                  <use xlink:href="images/sprite.svg#icon-telegram"></use>
-                </svg>
-                <span>Заказать</span>
-              </button>
-            </div>
-          </div>
+  // Показываем индикатор загрузки
+  container.innerHTML = `
+        <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Загрузка услуг...</p>
+            <p class="loading-hint">Проверяем подключение к серверу</p>
         </div>
+    `;
 
-        <!-- Правая часть - большое изображение -->
-        <div class="promo-card__visual promo-card__visual--regular">
-          <div class="service-image-container" data-id="${service.id}">
-            <img src="${mainImage}"
-                 alt="${service.title}"
-                 class="service-main-image"
-                 loading="lazy"
-                 onerror="this.src='https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&h=400&fit=crop'">
-
-            ${
-              moreImagesCount > 0
-                ? `
-              <div class="image-counter">
-                <svg width="16" height="16">
-                  <use xlink:href="images/sprite.svg#icon-images"></use>
-                </svg>
-                +${moreImagesCount}
-              </div>
-            `
-                : ""
+  // Стили для индикатора загрузки
+  if (!document.getElementById("loading-styles")) {
+    const style = document.createElement("style");
+    style.id = "loading-styles";
+    style.textContent = `
+            .loading-state {
+                grid-column: 1 / -1;
+                text-align: center;
+                padding: 40px;
+                color: #666;
             }
+            .spinner {
+                width: 40px;
+                height: 40px;
+                border: 4px solid #f3f3f6;
+                border-top: 4px solid #3498db;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+                margin: 0 auto 20px;
+            }
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+            .loading-hint {
+                font-size: 12px;
+                color: #999;
+                margin-top: 10px;
+            }
+            .connection-status {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                padding: 5px 10px;
+                border-radius: 4px;
+                font-size: 12px;
+                z-index: 1000;
+                background: rgba(0,0,0,0.7);
+                color: white;
+            }
+            .connection-status.online {
+                background: #4CAF50;
+            }
+            .connection-status.offline {
+                background: #f44336;
+            }
+            .cache-badge {
+                background: #FF9800;
+                color: white;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-size: 10px;
+                margin-left: 5px;
+            }
+        `;
+    document.head.appendChild(style);
+  }
 
-            <div class="image-overlay">
-              <button class="zoom-btn" data-id="${service.id}" aria-label="Увеличить изображение">
-                <svg width="24" height="24">
-                  <use xlink:href="images/sprite.svg#icon-zoom"></use>
-                </svg>
-              </button>
+  // Загружаем данные
+  allServices = await loadServicesFromAdmin();
+
+  console.log("Сервисы загружены:", allServices.length);
+
+  // Показываем статус подключения
+  showConnectionStatus();
+
+  // Если нет данных, показываем сообщение
+  if (allServices.length === 0) {
+    container.innerHTML = `
+            <div class="no-services" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                <h3>🚫 Нет доступных услуг</h3>
+                <p>Не удалось загрузить данные</p>
+                <div style="margin-top: 20px;">
+                    <button onclick="location.reload()" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">
+                        Обновить страницу
+                    </button>
+                    <button onclick="window.syncData()" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        Попробовать снова
+                    </button>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </li>
-  `;
+        `;
+    return;
+  }
+
+  // Рендерим карточки
+  renderServiceCards(allServices);
+
+  // Создаем модальное окно
+  createModal();
+
+  // Настраиваем обработчики
+  setupEventListeners();
+
+  // Добавляем стили
+  addSliderStyles();
+
+  console.log("✅ Карточки инициализированы");
 }
+
+// ============ МОДАЛЬНОЕ ОКНО ============
 
 // Создание модального окна
 function createModal() {
@@ -458,33 +543,18 @@ function createModal() {
 // Показать детали услуги в модальном окне
 function showServiceDetails(serviceId) {
   const service = allServices.find((s) => s.id == serviceId);
-  if (!service) return;
-
-  const body = document.body;
-  const scrollbarWidth =
-    window.innerWidth - document.documentElement.clientWidth;
-
-  // Сохраняем позицию скролла
-  body.dataset.scrollY = window.scrollY || document.documentElement.scrollTop;
-
-  // Добавляем padding-right для компенсации полосы прокрутки
-  const currentPaddingRight =
-    parseInt(window.getComputedStyle(body).paddingRight, 10) || 0;
-  body.style.paddingRight = `${currentPaddingRight + scrollbarWidth}px`;
-
-  // Блокируем скролл
-  body.classList.add("modal-open");
-  body.style.position = "fixed";
-  body.style.top = `-${body.dataset.scrollY}px`;
-  body.style.left = "0";
-  body.style.right = "0";
-  body.style.overflow = "hidden";
-
-  // Открываем модалку
+  if (!service) {
+    console.error("❌ Услуга не найдена:", serviceId);
+    return;
+  }
 
   currentModalService = service;
   const modal = document.getElementById("serviceModal");
-  modal.classList.add("active");
+
+  if (!modal) {
+    console.error("❌ Модальное окно не найдено");
+    return;
+  }
 
   // Устанавливаем данные
   document.getElementById("modalTitle").textContent = service.title;
@@ -501,7 +571,7 @@ function showServiceDetails(serviceId) {
     techHTML || '<span class="tech-tag">Индивидуально</span>';
 
   // Фичи
-  const featuresHTML = service.features
+  const featuresHTML = (service.features || [])
     .map(
       (feature) =>
         `<div class="feature-item">
@@ -512,7 +582,8 @@ function showServiceDetails(serviceId) {
     </div>`,
     )
     .join("");
-  document.getElementById("modalFeatures").innerHTML = featuresHTML;
+  document.getElementById("modalFeatures").innerHTML =
+    featuresHTML || '<div class="feature-item">Базовый функционал</div>';
 
   // Бейдж
   const badge = document.getElementById("modalBadge");
@@ -524,7 +595,7 @@ function showServiceDetails(serviceId) {
   }
 
   // Изображения
-  updateModalImages(service.images);
+  updateModalImages(service.images || []);
 
   // Кнопка заказа
   document.getElementById("modalOrderBtn").dataset.serviceId = service.id;
@@ -534,6 +605,7 @@ function showServiceDetails(serviceId) {
   document.body.style.overflow = "hidden";
 
   // Устанавливаем первое изображение
+  currentImageIndex = 0;
   showModalImage(0);
 }
 
@@ -542,8 +614,17 @@ function updateModalImages(images) {
   const thumbnailsContainer = document.getElementById("modalThumbnails");
   const mainImage = document.getElementById("modalMainImage");
 
+  if (!thumbnailsContainer || !mainImage) return;
+
   // Очищаем миниатюры
   thumbnailsContainer.innerHTML = "";
+
+  // Если нет изображений, показываем заглушку
+  if (!images || images.length === 0) {
+    images = [
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop",
+    ];
+  }
 
   // Создаем миниатюры
   images.forEach((img, index) => {
@@ -565,14 +646,19 @@ function updateModalImages(images) {
   // Обновляем главное изображение
   if (images[0]) {
     mainImage.src = images[0];
-    mainImage.alt = currentModalService.title;
+    mainImage.alt = currentModalService?.title || "Изображение услуги";
   }
 }
 
 // Показать конкретное изображение в модалке
-let currentImageIndex = 0;
 function showModalImage(index) {
-  if (!currentModalService || !currentModalService.images[index]) return;
+  if (
+    !currentModalService ||
+    !currentModalService.images ||
+    !currentModalService.images[index]
+  ) {
+    return;
+  }
 
   const images = currentModalService.images;
   currentImageIndex = index;
@@ -581,12 +667,14 @@ function showModalImage(index) {
   const mainImage = document.getElementById("modalMainImage");
 
   // Добавляем эффект загрузки
-  mainImage.style.opacity = "0.5";
-  setTimeout(() => {
-    mainImage.src = images[index];
-    mainImage.alt = `${currentModalService.title} - изображение ${index + 1}`;
-    mainImage.style.opacity = "1";
-  }, 150);
+  if (mainImage) {
+    mainImage.style.opacity = "0.5";
+    setTimeout(() => {
+      mainImage.src = images[index];
+      mainImage.alt = `${currentModalService.title} - изображение ${index + 1}`;
+      mainImage.style.opacity = "1";
+    }, 150);
+  }
 
   // Обновляем активную миниатюру
   document.querySelectorAll(".modal-thumbnail").forEach((thumb, i) => {
@@ -596,8 +684,14 @@ function showModalImage(index) {
   // Показываем/скрываем кнопки навигации
   const prevBtn = document.querySelector(".modal-prev");
   const nextBtn = document.querySelector(".modal-next");
-  prevBtn.style.display = index > 0 ? "flex" : "none";
-  nextBtn.style.display = index < images.length - 1 ? "flex" : "none";
+
+  if (prevBtn) {
+    prevBtn.style.display = index > 0 ? "flex" : "none";
+  }
+
+  if (nextBtn) {
+    nextBtn.style.display = index < images.length - 1 ? "flex" : "none";
+  }
 }
 
 // Закрыть модальное окно
@@ -605,21 +699,7 @@ function closeModal() {
   const modal = document.getElementById("serviceModal");
   if (modal) {
     modal.classList.remove("active");
-
-    // Восстанавливаем скролл страницы
-    document.body.classList.remove("modal-open");
-    document.body.style.top = "";
-    document.body.style.position = "";
     document.body.style.overflow = "";
-    document.body.style.paddingRight = "";
-
-    // Восстанавливаем позицию скролла
-    const scrollY = parseInt(document.body.dataset.scrollY || "0");
-    if (scrollY) {
-      window.scrollTo(0, scrollY);
-      document.body.dataset.scrollY = "";
-    }
-
     currentModalService = null;
     currentImageIndex = 0;
   }
@@ -633,15 +713,18 @@ function openTelegramForService(serviceId, serviceTitle) {
   const message =
     `🎯 Интересует услуга: ${serviceTitle}\n\n` +
     `💰 Цена: ${service.price}\n` +
-    `📝 Описание: ${service.description.substring(0, 100)}...\n\n` +
+    `📝 Описание: ${(service.description || "").substring(0, 100)}...\n\n` +
     `👤 Клиент с сайта`;
   const encoded = encodeURIComponent(message);
   const telegramUrl = `https://t.me/+79997005798?text=${encoded}`;
   window.open(telegramUrl, "_blank", "noopener,noreferrer");
 }
 
+// ============ ОБРАБОТЧИКИ СОБЫТИЙ ============
+
 // Обработчики событий
 function setupEventListeners() {
+  // Используем делегирование для динамически созданных элементов
   document.addEventListener("click", function (e) {
     // Подробнее в карточке
     if (e.target.closest(".details-btn")) {
@@ -650,33 +733,22 @@ function setupEventListeners() {
       showServiceDetails(serviceId);
     }
 
-    // Зум изображения в карточке
-    if (
-      e.target.closest(".zoom-btn") ||
-      e.target.closest(".service-image-container")
-    ) {
-      const button = e.target.closest("[data-id]");
-      if (button) {
-        const serviceId = button.dataset.id;
-        showServiceDetails(serviceId);
-      }
+    // Telegram заказ из карточки
+    if (e.target.closest(".telegram-order-btn")) {
+      const button = e.target.closest(".telegram-order-btn");
+      const serviceId = button.dataset.id;
+      const serviceTitle = button.dataset.title;
+      openTelegramForService(serviceId, serviceTitle);
     }
 
-    // Telegram заказ
-    if (
-      e.target.closest(".telegram-order-btn") ||
-      e.target.closest("#modalOrderBtn")
-    ) {
-      const button = e.target.closest("button");
-      const serviceId = button.dataset.serviceId || button.dataset.id;
-      const serviceTitle =
-        button.dataset.title ||
-        allServices.find((s) => s.id == serviceId)?.title;
-      if (serviceId && serviceTitle) {
-        openTelegramForService(serviceId, serviceTitle);
-        if (e.target.closest("#modalOrderBtn")) {
-          closeModal();
-        }
+    // Telegram заказ из модального окна
+    if (e.target.closest("#modalOrderBtn")) {
+      const button = e.target.closest("#modalOrderBtn");
+      const serviceId = button.dataset.serviceId;
+      const service = allServices.find((s) => s.id == serviceId);
+      if (service) {
+        openTelegramForService(serviceId, service.title);
+        closeModal();
       }
     }
 
@@ -699,9 +771,22 @@ function setupEventListeners() {
     if (e.target.closest(".modal-next")) {
       if (
         currentModalService &&
+        currentModalService.images &&
         currentImageIndex < currentModalService.images.length - 1
       ) {
         showModalImage(currentImageIndex + 1);
+      }
+    }
+
+    // Клик по изображению в карточке для открытия модалки
+    if (
+      e.target.closest(".service-image-container") ||
+      e.target.closest(".zoom-btn")
+    ) {
+      const container = e.target.closest("[data-id]");
+      if (container) {
+        const serviceId = container.dataset.id;
+        showServiceDetails(serviceId);
       }
     }
   });
@@ -713,6 +798,8 @@ function setupEventListeners() {
     }
   });
 }
+
+// ============ СТИЛИ ============
 
 // Добавление CSS стилей
 function addSliderStyles() {
@@ -762,6 +849,7 @@ function addSliderStyles() {
 
     /* Левая часть - контент */
     .promo-card__content--regular {
+      padding: 25px;
       display: flex;
       flex-direction: column;
     }
@@ -819,19 +907,8 @@ function addSliderStyles() {
       margin-top: auto;
     }
 
-    .price-wrapper {
-      display: flex;
-     flex-direction: column;
-      margin-bottom: 15px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid #e5e7eb;
-    }
 
-    .current-price {
-      font-size: 32px;
-      font-weight: bold;
-      padding-top: 10px;
-    }
+
 
     .service-type {
       font-size: 12px;
@@ -844,7 +921,6 @@ function addSliderStyles() {
     .card-buttons {
       display: flex;
       gap: 10px;
-      margin-top: auto;
     }
 
     .card-buttons .btn {
@@ -854,6 +930,7 @@ function addSliderStyles() {
     }
 
     .telegram-order-btn {
+      background: #0088cc;
       color: white;
       border: none;
       border-radius: 6px;
@@ -962,12 +1039,6 @@ function addSliderStyles() {
       margin-bottom: 15px;
       align-self: flex-start;
     }
-
-     .promo-badge--input {
-      background: linear-gradient(54.12deg, #FFFFFF 1.42%, #3499FF 88.51%);
-;
-    }
-
 
     /* Стили для модального окна */
     .service-modal {
@@ -1338,21 +1409,264 @@ function addSliderStyles() {
   document.head.appendChild(style);
 }
 
-// Экспорт функций фильтрации (если они вам нужны)
-export function filterServices(selectedTypes, selectedStatus) {
-  let filtered = allServices;
+// ============ ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ============
 
-  if (selectedTypes.length > 0) {
-    filtered = filtered.filter((service) =>
-      selectedTypes.includes(service.type),
-    );
+// Показать статус подключения
+function showConnectionStatus() {
+  // Удаляем старый статус если есть
+  const oldStatus = document.getElementById("connection-status");
+  if (oldStatus) oldStatus.remove();
+
+  const cacheSource = localStorage.getItem("cache_source");
+  const isCached = cacheSource === "server" || cacheSource === "cache";
+  const isDemo = cacheSource === "demo" || !cacheSource;
+
+  const status = document.createElement("div");
+  status.id = "connection-status";
+  status.className = isDemo ? "offline" : "online";
+
+  let statusText = "";
+  if (isCached) {
+    statusText = "✅ Кэшированные данные";
+    status.innerHTML = statusText + ' <span class="cache-badge">Оффлайн</span>';
+  } else if (isDemo) {
+    statusText = "⚠️ Демо-данные";
+    status.innerHTML =
+      statusText + ' <span class="cache-badge">Нет сети</span>';
+  } else {
+    statusText = "✅ Онлайн";
+    status.innerHTML = statusText;
   }
 
-  if (selectedStatus === "popular") {
-    filtered = filtered.filter((service) => service.popular);
-  }
-
-  renderServiceCards(filtered);
+  document.body.appendChild(status);
 }
 
-export default initServiceCards;
+// Показать уведомление
+function showNotification(message, type = "info") {
+  // Удаляем старые уведомления
+  const oldNotifications = document.querySelectorAll(".custom-notification");
+  oldNotifications.forEach((n) => n.remove());
+
+  const notification = document.createElement("div");
+  notification.className = `custom-notification ${type}`;
+  notification.innerHTML = `
+        <div class="notification-content">
+            <span>${message}</span>
+            <button onclick="this.parentElement.parentElement.remove()" style="background:none; border:none; color:white; font-size:20px; cursor:pointer; margin-left:15px;">×</button>
+        </div>
+    `;
+
+  notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 10000;
+        animation: slideIn 0.3s ease-out;
+    `;
+
+  if (!document.getElementById("notification-styles")) {
+    const style = document.createElement("style");
+    style.id = "notification-styles";
+    style.textContent = `
+            .custom-notification .notification-content {
+                padding: 15px 20px;
+                border-radius: 5px;
+                margin-bottom: 10px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                min-width: 300px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            }
+            .custom-notification.success .notification-content {
+                background: #4caf50;
+                color: white;
+            }
+            .custom-notification.error .notification-content {
+                background: #f44336;
+                color: white;
+            }
+            .custom-notification.info .notification-content {
+                background: #2196f3;
+                color: white;
+            }
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+    document.head.appendChild(style);
+  }
+
+  document.body.appendChild(notification);
+
+  // Автоудаление через 5 секунд
+  setTimeout(() => {
+    if (notification.parentElement) {
+      notification.style.opacity = "0";
+      setTimeout(() => notification.remove(), 300);
+    }
+  }, 5000);
+}
+
+// Функция для принудительного обновления (синхронизации)
+export async function refreshServices() {
+  console.log("🔄 Принудительное обновление услуг...");
+
+  try {
+    // Очищаем кэш для принудительной перезагрузки
+    localStorage.removeItem("services_cache");
+    localStorage.removeItem("cache_timestamp");
+
+    const newServices = await loadServicesFromAdmin();
+    allServices = newServices;
+
+    // Обновляем отображение
+    renderServiceCards(allServices);
+
+    // Обновляем статус
+    showConnectionStatus();
+
+    // Показываем уведомление
+    showNotification(`✅ Обновлено: ${newServices.length} услуг`, "success");
+
+    return true;
+  } catch (error) {
+    console.error("❌ Ошибка обновления:", error);
+    showNotification("❌ Не удалось обновить данные", "error");
+    return false;
+  }
+}
+
+// Функция для добавления кнопки синхронизации
+export function addSyncButton() {
+  // Проверяем, не добавлена ли уже кнопка
+  if (document.getElementById("admin-sync-btn")) return;
+
+  // Создаем кнопку
+  const syncBtn = document.createElement("button");
+  syncBtn.id = "admin-sync-btn";
+  syncBtn.className = "admin-sync-btn";
+  syncBtn.innerHTML = `
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <path d="M4 4V9H4.58152M19.9381 11C19.446 7.05369 16.0796 4 12 4C8.64262 4 5.76829 6.06817 4.58152 9M4.58152 9H9M20 20V15H19.4185M19.4185 15C18.2317 17.9318 15.3574 20 12 20C7.92038 20 4.55399 16.9463 4.06189 13M19.4185 15H15"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Синхронизировать
+  `;
+
+  // Стили для кнопки
+  const style = document.createElement("style");
+  style.textContent = `
+    .admin-sync-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 999;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .admin-sync-btn:hover {
+      background: #2563eb;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+    }
+
+    .admin-sync-btn:active {
+      transform: translateY(0);
+    }
+
+    .admin-sync-btn.loading {
+      opacity: 0.8;
+      cursor: not-allowed;
+    }
+
+    .admin-sync-btn.loading svg {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  `;
+  document.head.appendChild(style);
+  document.body.appendChild(syncBtn);
+
+  // Обработчик клика
+  syncBtn.addEventListener("click", async () => {
+    syncBtn.classList.add("loading");
+    syncBtn.innerHTML = `
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="spin">
+        <path d="M4 4V9H4.58152M19.9381 11C19.446 7.05369 16.0796 4 12 4C8.64262 4 5.76829 6.06817 4.58152 9M4.58152 9H9M20 20V15H19.4185M19.4185 15C18.2317 17.9318 15.3574 20 12 20C7.92038 20 4.55399 16.9463 4.06189 13M19.4185 15H15"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Обновление...
+    `;
+
+    try {
+      const newServices = await loadServicesFromAdmin();
+      allServices = newServices;
+      renderServiceCards(allServices);
+
+      syncBtn.innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Обновлено!
+      `;
+
+      setTimeout(() => {
+        syncBtn.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M4 4V9H4.58152M19.9381 11C19.446 7.05369 16.0796 4 12 4C8.64262 4 5.76829 6.06817 4.58152 9M4.58152 9H9M20 20V15H19.4185M19.4185 15C18.2317 17.9318 15.3574 20 12 20C7.92038 20 4.55399 16.9463 4.06189 13M19.4185 15H15"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Синхронизировать
+        `;
+        syncBtn.classList.remove("loading");
+      }, 2000);
+    } catch (error) {
+      console.error("❌ Ошибка синхронизации:", error);
+      syncBtn.innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Ошибка
+      `;
+
+      setTimeout(() => {
+        syncBtn.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M4 4V9H4.58152M19.9381 11C19.446 7.05369 16.0796 4 12 4C8.64262 4 5.76829 6.06817 4.58152 9M4.58152 9H9M20 20V15H19.4185M19.4185 15C18.2317 17.9318 15.3574 20 12 20C7.92038 20 4.55399 16.9463 4.06189 13M19.4185 15H15"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Синхронизировать
+        `;
+        syncBtn.classList.remove("loading");
+      }, 2000);
+    }
+  });
+}
+
+// Экспорт функций
+
+// Глобальные функции
+window.initServiceCards = initServiceCards;
+window.refreshServices = refreshServices;
+window.syncData = refreshServices;
+window.allServices = allServices;
+window.addSyncButton = addSyncButton;

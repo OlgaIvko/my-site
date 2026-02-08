@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Админка TerraCode</title>
+    <link rel="stylesheet" href="admin.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="admin-container">
+      <header class="admin-header">
+        <h1><i class="fas fa-cogs"></i> Админка TerraCode</h1>
+        <div class="admin-menu">
+          <button class="tab-btn active" data-tab="services">Услуги</button>
+          <button class="tab-btn" data-tab="products">Товары</button>
+          <button class="tab-btn" data-tab="pages">Страницы</button>
+        </div>
+      </header>
+
+      <main class="admin-main">
+        <!-- Секция услуг -->
+        <div id="services" class="tab-content active">
+          <div class="section-header">
+            <h2><i class="fas fa-concierge-bell"></i> Управление услугами</h2>
+            <button class="btn-add" onclick="addService()">
+              <i class="fas fa-plus"></i> Добавить услугу
+            </button>
+          </div>
+          <div id="services-list" class="items-list"></div>
+        </div>
+
+        <!-- Секция товаров -->
+        <div id="products" class="tab-content">
+          <div class="section-header">
+            <h2><i class="fas fa-box"></i> Управление товарами</h2>
+            <button class="btn-add" onclick="addProduct()">
+              <i class="fas fa-plus"></i> Добавить товар
+            </button>
+          </div>
+          <div id="products-list" class="items-list"></div>
+        </div>
+
+        <!-- Секция страниц -->
+        <div id="pages" class="tab-content">
+          <div class="section-header">
+            <h2><i class="fas fa-file-alt"></i> Управление страницами</h2>
+            <button class="btn-add" onclick="addPage()">
+              <i class="fas fa-plus"></i> Добавить страницу
+            </button>
+          </div>
+          <div id="pages-list" class="items-list"></div>
+        </div>
+      </main>
+
+      <footer class="admin-footer">
+        <button class="btn-save" onclick="saveAll()">
+          <i class="fas fa-save"></i> Сохранить все изменения
+        </button>
+        <div class="status" id="status">Готово к работе</div>
+      </footer>
+    </div>
+
+    <!-- Модальное окно для редактирования -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modal-title">Редактирование</h3>
+          <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+        <div class="modal-body" id="modal-body">
+          <!-- В admin.html, внутри modal-body -->
+          <div id="modal-body"></div>
+
+          <!-- А также добавим шаблоны форм -->
+          <template id="service-form-template">
+            <div class="form-group">
+              <label>Название услуги*</label>
+              <input
+                type="text"
+                id="item-title"
+                class="form-control"
+                placeholder="Например: Разработка лендинга"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Описание*</label>
+              <textarea
+                id="item-desc"
+                class="form-control"
+                placeholder="Подробное описание услуги"
+                rows="3"
+                required
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label>Цена*</label>
+              <input
+                type="text"
+                id="item-price"
+                class="form-control"
+                placeholder="Например: от 50 000 ₽"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Тип услуги</label>
+              <select id="item-type" class="form-control">
+                <option value="landing">Лендинг</option>
+                <option value="shop">Магазин</option>
+                <option value="corporate">Корпоративный</option>
+                <option value="mobile">Мобильное</option>
+                <option value="support">Поддержка</option>
+                <option value="design">Дизайн</option>
+                <option value="development">Разработка</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Фичи (через запятую)*</label>
+              <textarea
+                id="item-features"
+                class="form-control"
+                placeholder="Дизайн, Адаптивность, SEO-оптимизация"
+                rows="2"
+                required
+              ></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Срок выполнения</label>
+                <input
+                  type="text"
+                  id="item-timeline"
+                  class="form-control"
+                  placeholder="2-4 недели"
+                />
+              </div>
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" id="item-popular" />
+                  Популярная услуга
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Технологии (через запятую)</label>
+              <input
+                type="text"
+                id="item-tech"
+                class="form-control"
+                placeholder="HTML, CSS, JavaScript, React"
+              />
+            </div>
+            <div class="form-group">
+              <label>Что входит (через запятую)</label>
+              <textarea
+                id="item-includes"
+                class="form-control"
+                placeholder="UI/UX дизайн, Мобильная версия, Базовая SEO"
+                rows="2"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label>Изображение (URL)*</label>
+              <input
+                type="text"
+                id="item-image"
+                class="form-control"
+                placeholder="https://images.unsplash.com/photo-..."
+                required
+              />
+            </div>
+          </template>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-cancel" onclick="closeModal()">Отмена</button>
+          <button class="btn-save" onclick="saveItem()">Сохранить</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="admin.js"></script>
+  </body>
+</html>
