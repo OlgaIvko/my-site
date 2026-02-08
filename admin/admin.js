@@ -18,6 +18,7 @@ async function loadData(type) {
 }
 
 // Рендеринг списка
+// Рендеринг списка
 function renderList(type) {
   const container = document.getElementById(`${type}-list`);
   if (!container) return;
@@ -27,26 +28,50 @@ function renderList(type) {
   container.innerHTML = items
     .map(
       (item, index) => `
-            <div class="item-card">
-                <div class="item-title">
-                    ${item.title || "Без названия"}
-                    <span class="item-price">${item.price ? `${item.price}` : ""}</span>
-                </div>
-                <div class="item-desc">${item.description || ""}</div>
-                <div class="item-actions">
-                    <button class="btn-edit" onclick="editItem('${type}', ${index})">
-                        <i class="fas fa-edit"></i> Редактировать
-                    </button>
-                    <button class="btn-delete" onclick="deleteItem('${type}', ${index})">
-                        <i class="fas fa-trash"></i> Удалить
-                    </button>
-                </div>
-            </div>
-        `,
+      <div class="item-card">
+        <!-- Превью изображений -->
+        <div class="item-images-preview">
+          ${
+            item.images && item.images.length > 0
+              ? item.images
+                  .slice(0, 3)
+                  .map(
+                    (img) => `
+                <img src="${img}"
+                     alt="Превью"
+                     class="item-image-thumb"
+                     onerror="this.src='https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=100&h=70&fit=crop'">
+              `,
+                  )
+                  .join("")
+              : '<div class="no-images">Нет изображений</div>'
+          }
+          ${
+            item.images && item.images.length > 3
+              ? `<div class="more-images">+${item.images.length - 3}</div>`
+              : ""
+          }
+        </div>
+
+        <!-- Контент карточки -->
+        <div class="item-title">
+          ${item.title || "Без названия"}
+          <span class="item-price">${item.price ? `${item.price}` : ""}</span>
+        </div>
+        <div class="item-desc">${item.description || ""}</div>
+        <div class="item-actions">
+          <button class="btn-edit" onclick="editItem('${type}', ${index})">
+            <i class="fas fa-edit"></i> Редактировать
+          </button>
+          <button class="btn-delete" onclick="deleteItem('${type}', ${index})">
+            <i class="fas fa-trash"></i> Удалить
+          </button>
+        </div>
+      </div>
+    `,
     )
     .join("");
 }
-
 // Показать модальное окно
 function showModal(title, content) {
   document.getElementById("modal-title").textContent = title;
@@ -98,8 +123,9 @@ function addService() {
             <textarea id="item-features" class="form-control" placeholder="Фича 1, Фича 2, Фича 3"></textarea>
         </div>
         <div class="form-group">
-            <label>Изображение (URL)</label>
-            <input type="text" id="item-image" class="form-control" placeholder="Ссылка на изображение">
+<label>Изображения (URL через запятую, максимум 3)</label>
+<textarea id="item-images" class="form-control" placeholder="Ссылка 1, Ссылка 2, Ссылка 3"></textarea>
+<small class="form-text text-muted">Можно добавить до 3 изображений через запятую</small>
         </div>
         <div class="form-group">
             <label>Срок выполнения</label>
@@ -148,7 +174,7 @@ function addProduct() {
         </div>
         <div class="form-group">
             <label>Изображение (URL)</label>
-            <input type="text" id="item-image" class="form-control" placeholder="Ссылка на изображение">
+            <input type="text" id="item-images" class="form-control" placeholder="Ссылка на изображение">
         </div>
     `,
   );
@@ -222,8 +248,9 @@ function editItem(type, index) {
                 <textarea id="item-features" class="form-control">${Array.isArray(item.features) ? item.features.join(", ") : ""}</textarea>
             </div>
             <div class="form-group">
-                <label>Изображение (URL)</label>
-                <input type="text" id="item-image" class="form-control" value="${item.images && item.images[0] ? item.images[0] : ""}">
+                <label>Изображения (URL через запятую, максимум 3)</label>
+<textarea id="item-images" class="form-control" placeholder="Ссылка 1, Ссылка 2, Ссылка 3">${Array.isArray(item.images) ? item.images.join(", ") : item.image || ""}</textarea>
+<small class="form-text text-muted">Можно добавить до 3 изображений через запятую</small>
             </div>
             <div class="form-group">
                 <label>Срок выполнения</label>
@@ -264,7 +291,7 @@ function editItem(type, index) {
             </div>
             <div class="form-group">
                 <label>Изображение (URL)</label>
-                <input type="text" id="item-image" class="form-control" value="${item.image || ""}">
+                <input type="text" id="item-images" class="form-control" value="${item.image || ""}">
             </div>
         `;
   } else if (type === "pages") {
@@ -337,6 +364,21 @@ function saveItem() {
       .map((i) => i.trim())
       .filter((i) => i.length > 0) || ["Базовый набор функций"];
 
+    // Получаем массив изображений
+    const imagesInput = document.getElementById("item-images")?.value || "";
+    const images = imagesInput
+      .split(",")
+      .map((img) => img.trim())
+      .filter((img) => img.length > 0)
+      .slice(0, 3); // Берем только первые 3
+
+    // Если нет изображений, используем стандартное
+    if (images.length === 0) {
+      images.push(
+        "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop",
+      );
+    }
+
     item = {
       id:
         currentItemId === null
@@ -348,7 +390,7 @@ function saveItem() {
       type: document.getElementById("item-type")?.value || "development",
       features: features,
       popular: document.getElementById("item-popular")?.checked || false,
-      images: [document.getElementById("item-image")?.value?.trim() || ""],
+      images: images, // ← ЗДЕСЬ ПРОИЗОШЛА ЗАМЕНА
       details: {
         timeline:
           document.getElementById("item-timeline")?.value?.trim() ||
@@ -365,7 +407,7 @@ function saveItem() {
       category:
         document.getElementById("item-category")?.value?.trim() ||
         "Без категории",
-      image: document.getElementById("item-image")?.value?.trim() || "",
+      image: document.getElementById("item-images")?.value?.trim() || "",
     };
   } else if (currentType === "pages") {
     item = {

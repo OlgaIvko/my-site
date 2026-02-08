@@ -3,7 +3,7 @@
     "id": 2,
     "title": "Интернет-магазин",
     "description": "Полнофункциональный магазин с системой управления товарами и заказами",
-    "price": "от 150 000 ₽",
+    "price": "от 190 000 ₽",
     "type": "shop",
     "features": [
       "Каталог товаров",
@@ -15,7 +15,8 @@
     ],
     "popular": true,
     "images": [
-      "images/mobile2.jpg"
+      "images/mobile2.jpg",
+      "images/mobile.jpg"
     ],
     "details": {
       "timeline": "2-4 недели",
@@ -66,7 +67,7 @@
       "images/mobile.jpg"
     ],
     "details": {
-      "timeline": "2-4 недели",
+      "timeline": "2-3 месяца",
       "technologies": [],
       "includes": []
     }
@@ -75,7 +76,7 @@
     "id": 5,
     "title": "Техническая поддержка",
     "description": "Ежемесячное обслуживание и развитие вашего сайта",
-    "price": "от 10 000 ₽/мес",
+    "price": "от 60 000 ₽/мес",
     "type": "support",
     "features": [
       "Ежедневные бэкапы",
@@ -87,12 +88,135 @@
     ],
     "popular": false,
     "images": [
-      "images/tex.jpg"
+      "images/tex2.jpg",
+      "images/korporat.jpg"
     ],
     "details": {
       "timeline": "2-4 недели",
       "technologies": [],
       "includes": []
+    }
+  },
+  {
+    "id": 1770562068261,
+    "title": "Мобильное приложение os",
+    "description": "os",
+    "price": "от 300 000 ₽",
+    "type": "mobile",
+    "features": [
+      "r"
+    ],
+    "popular": true,
+    "images": [
+      "https://images.unsplash.com/photo-1.jpg",
+      "https://images.unsplash.com/photo-2.jpg",
+      "https://images.unsplash.com/photo-3.jpg"
+    ],
+    "details": {
+      "timeline": "2-4 недели",
+      "technologies": [],
+      "includes": []
+    }
+  },
+  {
+    "id": 1770583263574,
+    "title": "Разработка лендинга",
+    "description": "Одностраничный сайт для быстрого запуска бизнеса",
+    "price": "25000",
+    "type": "landing",
+    "features": [
+      "new"
+    ],
+    "popular": true,
+    "images": [
+      "images/site.jpg",
+      "images/site2.jpg"
+    ],
+    "details": {
+      "timeline": "2-4 недели",
+      "technologies": [
+        "HTML/CSS JavaScript Static Site Generator"
+      ],
+      "includes": [
+        "Дизайн и верстка",
+        "Адаптивность",
+        "SEO-оптимизация"
+      ]
+    }
+  },
+  {
+    "id": 1770584357505,
+    "title": "Сайт-визитка",
+    "description": "Простой и эффективный сайт для персонального бренда",
+    "price": "15000",
+    "type": "business-card",
+    "features": [],
+    "popular": true,
+    "images": [
+      "images/site.jpg",
+      "images/site2.jpg"
+    ],
+    "details": {
+      "timeline": "2-4 недели",
+      "technologies": [
+        "HTML/CSS JavaScript Static Site Generator"
+      ],
+      "includes": [
+        "Контакты",
+        "Портфолио",
+        "Блог",
+        "Социальные сети"
+      ]
+    }
+  },
+  {
+    "id": 1770585697807,
+    "title": "UI/UX Дизайн",
+    "description": "Проектирование интерфейсов и пользовательского опыта",
+    "price": "от 40 000 ₽",
+    "type": "ui/ux",
+    "features": [
+      "Figma",
+      "Adobe XD",
+      "Sketch",
+      "InVision"
+    ],
+    "popular": false,
+    "images": [
+      "images/ux.jpg",
+      "images/ux2.jpg"
+    ],
+    "details": {
+      "timeline": "2-4 недели",
+      "technologies": [
+        "Прототипирование User Research Аналитика Wireframes"
+      ],
+      "includes": []
+    }
+  },
+  {
+    "id": 1770586120239,
+    "title": "Интернет-магазин",
+    "description": "Полнофункциональный магазин с корзиной и оплатой",
+    "price": "от 120 000 ₽",
+    "type": "shop",
+    "features": [
+      "React",
+      "Node.js",
+      "MongoDB"
+    ],
+    "popular": true,
+    "images": [
+      "images/magazin.jpg"
+    ],
+    "details": {
+      "timeline": "4-8 недели",
+      "technologies": [
+        "React Node.js MongoDB"
+      ],
+      "includes": [
+        "Каталог товаров\nКорзина и оплата\nЛичный кабине"
+      ]
     }
   }
 ]

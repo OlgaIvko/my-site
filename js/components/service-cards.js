@@ -57,12 +57,17 @@ function createServiceCardHTML(service) {
 
   // Главное изображение для превью
   const mainImage =
-    service.images && service.images[0]
-      ? service.images[0]
-      : "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop";
+    (Array.isArray(service.images) && service.images[0]) ||
+    service.image ||
+    "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop";
 
-  const moreImagesCount =
-    service.images && service.images.length > 1 ? service.images.length - 1 : 0;
+  // Количество дополнительных изображений
+  const allImages = Array.isArray(service.images)
+    ? service.images
+    : service.image
+      ? [service.image]
+      : [];
+  const moreImagesCount = allImages.length > 1 ? allImages.length - 1 : 0;
 
   const featuresHTML =
     service.features && service.features.length > 0
@@ -140,18 +145,18 @@ function createServiceCardHTML(service) {
                  loading="lazy"
                  onerror="this.src='https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&h=400&fit=crop'">
 
-            ${
-              moreImagesCount > 0
-                ? `
-              <div class="image-counter">
-                <svg width="16" height="16">
-                  <use xlink:href="images/sprite.svg#icon-images"></use>
-                </svg>
-                +${moreImagesCount}
-              </div>
-            `
-                : ""
-            }
+           ${
+             moreImagesCount > 0
+               ? `
+  <div class="image-counter">
+    <svg width="16" height="16">
+      <use xlink:href="images/sprite.svg#icon-images"></use>
+    </svg>
+    +${moreImagesCount}
+  </div>
+`
+               : ""
+           }
 
             <div class="image-overlay">
               <button class="zoom-btn" data-id="${service.id || Date.now()}" aria-label="Увеличить изображение">
@@ -415,6 +420,8 @@ function updateModalImages(images) {
   if (!images || images.length === 0) {
     images = [
       "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1556741533-6e6a62bd4b19?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&h=400&fit=crop",
     ];
   }
 
@@ -912,7 +919,6 @@ function addSliderStyles() {
     .modal-main-image-container {
       position: relative;
       flex: 1;
-      overflow: hidden;
       border-radius: 12px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
@@ -1118,7 +1124,6 @@ function addSliderStyles() {
 
     .modal-actions .btn {
       flex: 1;
-      padding: 14px 20px;
       font-size: 15px;
       display: flex;
       align-items: center;
@@ -1216,19 +1221,6 @@ function showConnectionStatus() {
   const status = document.createElement("div");
   status.id = "connection-status";
   status.className = isDemo ? "offline" : "online";
-
-  let statusText = "";
-  if (isCached) {
-    statusText = "✅ Кэшированные данные";
-    status.innerHTML = statusText + ' <span class="cache-badge">Оффлайн</span>';
-  } else if (isDemo) {
-    statusText = "⚠️ Демо-данные";
-    status.innerHTML =
-      statusText + ' <span class="cache-badge">Нет сети</span>';
-  } else {
-    statusText = "✅ Онлайн";
-    status.innerHTML = statusText;
-  }
 
   document.body.appendChild(status);
 }

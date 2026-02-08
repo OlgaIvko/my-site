@@ -1416,15 +1416,15 @@
   height: auto;
 }
 
+/* Бейдж */
 .promo-badge {
-  background: rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
   color: white;
-  padding: 8px 16px;
+  padding: 6px 12px;
   border-radius: 20px;
-  font-size: 14px;
+  font-size: 12px;
   display: inline-block;
-  margin-bottom: 20px;
-  backdrop-filter: blur(10px);
+  margin-bottom: 15px;
   align-self: flex-start;
 }
 
