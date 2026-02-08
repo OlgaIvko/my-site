@@ -1,6 +1,6 @@
 // js/main.js
 
-import { initServiceCards, addSyncButton } from "./components/service-cards.js";
+import { initServiceCards } from "./components/service-cards.js";
 import { initFilters } from "./components/filters.js";
 import { initQuickSelect } from "./components/quick-select.js";
 import { initOrderCalculation } from "./components/order-calc.js";
@@ -14,10 +14,7 @@ async function initApp() {
   try {
     // Инициализируем компоненты
     await initServiceCards();
-    console.log("✅ Модуль услуг загружен");
-
-    // Добавляем кнопку синхронизации
-    addSyncButton();
+    console.log("✅ Услуги загружены");
 
     initFilters();
     console.log("✅ Фильтры");
@@ -34,12 +31,11 @@ async function initApp() {
     initFAQ();
     console.log("✅ FAQ аккордеон");
 
-    console.log("🎉 Приложение запущено!");
+    console.log("🎉 Всё работает!");
   } catch (error) {
     console.error("❌ Ошибка при инициализации:", error);
 
-    // Не показываем сообщение об ошибке, так как initServiceCards
-    // сам показывает сообщение при отсутствии данных
+    // Не показываем ошибку пользователю, сайт продолжает работать
   }
 }
 
@@ -52,7 +48,5 @@ if (document.readyState === "loading") {
 
 // Глобальные функции для отладки
 window.debugServices = function () {
-  console.log("🔍 Отладка услуг:", window.allServices || "Нет данных");
-  console.log("📊 Кэш:", localStorage.getItem("services_cache"));
-  console.log("🕒 Кэш-время:", localStorage.getItem("cache_timestamp"));
+  console.log("🔍 Данные услуг:", window.allServices || "Нет данных");
 };

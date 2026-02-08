@@ -1,111 +1,6 @@
-// js/components/service-cards.js
-
 let allServices = [];
 let currentModalService = null;
 let currentImageIndex = 0;
-
-// Функция проверки доступности сервера
-async function checkServerAvailability() {
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3000);
-
-    const response = await fetch("http://localhost:3001/api/health", {
-      method: "GET",
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeoutId);
-    return response.ok;
-  } catch (error) {
-    console.log("⚠️ Сервер недоступен:", error.message);
-    return false;
-  }
-}
-
-// Функция получения данных с fallback механизмом
-async function getServicesData() {
-  console.log("📦 Получаю данные услуг...");
-
-  // 1. Пробуем основной сервер
-  try {
-    console.log("🔄 Пробую основной сервер...");
-    const response = await fetch("http://localhost:3001/api/services", {
-      signal: AbortSignal.timeout(5000),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log(`✅ Данные с сервера: ${data.length} услуг`);
-
-      // Сохраняем в кэш
-      cacheServicesData(data);
-
-      return data;
-    }
-  } catch (error) {
-    console.log("❌ Ошибка загрузки с сервера:", error.message);
-  }
-
-  // 2. Пробуем кэш (без демо-данных)
-  console.log("🔄 Пробую кэш...");
-  const cachedData = getCachedServicesData();
-  if (cachedData && cachedData.length > 0) {
-    console.log(`✅ Данные из кэша: ${cachedData.length} услуг`);
-    return cachedData;
-  }
-
-  // 3. Нет данных - возвращаем пустой массив
-  console.log("📭 Нет данных в сервере и кэше");
-  return [];
-}
-
-// Кэширование данных в localStorage
-function cacheServicesData(data) {
-  try {
-    localStorage.setItem("services_cache", JSON.stringify(data));
-    localStorage.setItem("cache_timestamp", Date.now().toString());
-    localStorage.setItem("cache_source", "server");
-    console.log("💾 Данные сохранены в кэш");
-  } catch (error) {
-    console.error("❌ Ошибка сохранения в кэш:", error);
-  }
-}
-
-// Получение данных из кэша
-function getCachedServicesData() {
-  try {
-    const cached = localStorage.getItem("services_cache");
-    const timestamp = localStorage.getItem("cache_timestamp");
-    const source = localStorage.getItem("cache_source") || "unknown";
-
-    if (!cached || !timestamp) {
-      console.log("📭 Кэш пуст");
-      return null;
-    }
-
-    // Проверяем свежесть кэша (максимум 24 часа)
-    const cacheAge = Date.now() - parseInt(timestamp);
-    const maxAge = 24 * 60 * 60 * 1000; // 24 часа
-
-    if (cacheAge > maxAge) {
-      console.log("🕒 Кэш устарел");
-      localStorage.removeItem("services_cache");
-      localStorage.removeItem("cache_timestamp");
-      localStorage.removeItem("cache_source");
-      return null;
-    }
-
-    const data = JSON.parse(cached);
-    console.log(
-      `📅 Кэш (${source}, ${Math.round(cacheAge / 1000 / 60)} мин назад): ${data.length} услуг`,
-    );
-    return data;
-  } catch (error) {
-    console.error("❌ Ошибка чтения кэша:", error);
-    return null;
-  }
-}
 
 // Метка типа услуги
 function getServiceTypeLabel(type) {
@@ -125,52 +20,22 @@ function getServiceTypeLabel(type) {
   return labels[type] || type;
 }
 
-// Загрузка данных из админки
-async function loadServicesFromAdmin() {
+// Загрузка данных (без сервера)
+async function loadServicesData() {
+  console.log("📦 Загружаю данные услуг...");
+
   try {
-    console.log("📡 Загружаю данные из админки...");
+    // Пробуем загрузить из локального файла
+    const response = await fetch("/data/services.json");
 
-    const data = await getServicesData();
-
-    console.log("✅ Данные получены:", data.length, "услуг");
-
-    if (data && data.length > 0) {
-      return data.map((service, index) => {
-        return {
-          id: service.id || index + 1,
-          title: service.title || "Новая услуга",
-          description: service.description || "",
-          type: service.type || "development",
-          price: service.price || "от 0 ₽",
-          features: Array.isArray(service.features)
-            ? service.features
-            : service.features
-              ? [service.features]
-              : ["Базовый функционал"],
-          popular: service.popular || false,
-          images:
-            Array.isArray(service.images) && service.images.length > 0
-              ? service.images
-              : service.image
-                ? [service.image]
-                : [
-                    "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop",
-                  ],
-          details: {
-            timeline:
-              service.timeline || service.details?.timeline || "2-4 недели",
-            technologies: Array.isArray(service.technologies)
-              ? service.technologies
-              : service.details?.technologies || ["HTML/CSS", "JavaScript"],
-            includes: Array.isArray(service.includes)
-              ? service.includes
-              : service.details?.includes || ["Базовый набор функций"],
-          },
-        };
-      });
+    if (response.ok) {
+      const data = await response.json();
+      console.log(`✅ Данные загружены из файла: ${data.length} услуг`);
+      return data;
     }
 
-    console.log("⚠️ Нет данных");
+    // Если файла нет, создаем пустой массив
+    console.log("📭 Файл данных не найден");
     return [];
   } catch (error) {
     console.error("❌ Ошибка загрузки данных:", error);
@@ -319,11 +184,9 @@ function renderServiceCards(services) {
   if (services.length === 0) {
     container.innerHTML = `
       <div class="no-services-message" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
-        <h3>📭 Услуги временно недоступны</h3>
-        <p>Данные об услугах загружаются. Пожалуйста, попробуйте позже.</p>
-        <button onclick="window.location.reload()" style="margin-top: 20px; padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 5px; cursor: pointer;">
-          Обновить страницу
-        </button>
+        <h3>📭 Пока нет услуг</h3>
+        <p>Добавьте услуги через админку и экспортируйте данные для сайта</p>
+        <p><small>Запустите админку: <code>node admin/server.js</code></small></p>
       </div>
     `;
     return;
@@ -338,7 +201,7 @@ function renderServiceCards(services) {
   console.log(`✅ Отрендерено ${services.length} карточек`);
 }
 
-// Обновленная initServiceCards
+// Обновленная initServiceCards (без сервера)
 export async function initServiceCards() {
   console.log("🛠️ Инициализация карточек услуг...");
 
@@ -355,19 +218,15 @@ export async function initServiceCards() {
         <div class="loading-state">
             <div class="spinner"></div>
             <p>Загрузка услуг...</p>
-            <p class="loading-hint">Подключаемся к серверу</p>
         </div>
     `;
 
-  // Загружаем данные
-  allServices = await loadServicesFromAdmin();
+  // Загружаем данные ТОЛЬКО из локального файла
+  allServices = await loadServicesData();
 
   console.log("Сервисы загружены:", allServices.length);
 
-  // Показываем статус подключения
-  showConnectionStatus();
-
-  // Рендерим карточки (даже если пустой массив)
+  // Рендерим карточки
   renderServiceCards(allServices);
 
   // Создаем модальное окно
@@ -1593,6 +1452,76 @@ export function addSyncButton() {
       }, 2000);
     }
   });
+}
+
+// В начале service-cards.js добавьте:
+const API_BASE_URL =
+  window.location.hostname === "localhost" ? "http://localhost:3001" : "/api"; // Для продакшена
+
+// Обновите функцию getServicesData:
+async function getServicesData() {
+  console.log("📦 Получаю данные услуг...");
+
+  // 1. Пробуем кэш СНАЧАЛА (для скорости на мобильных)
+  const cachedData = getCachedServicesData();
+  if (cachedData && cachedData.length > 0) {
+    console.log(`✅ Данные из кэша: ${cachedData.length} услуг`);
+
+    // Загружаем с сервера в фоне для обновления
+    setTimeout(() => this.loadFromServerInBackground(), 1000);
+
+    return cachedData;
+  }
+
+  // 2. Пробуем основной сервер
+  try {
+    console.log("🔄 Пробую основной сервер...");
+    const response = await fetch(`${API_BASE_URL}/api/services`, {
+      signal: AbortSignal.timeout(10000), // 10 секунд для мобильных
+      headers: {
+        "Cache-Control": "no-cache",
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(`✅ Данные с сервера: ${data.length} услуг`);
+
+      // Сохраняем в кэш
+      cacheServicesData(data);
+
+      return data;
+    }
+  } catch (error) {
+    console.log("❌ Ошибка загрузки с сервера:", error.message);
+  }
+
+  // 3. Нет данных
+  console.log("📭 Нет данных в сервере и кэше");
+  return [];
+}
+
+// Функция для фоновой загрузки
+function loadFromServerInBackground() {
+  fetch(`${API_BASE_URL}/api/services`, {
+    priority: "low", // Низкий приоритет
+    headers: {
+      "Cache-Control": "no-cache",
+    },
+  })
+    .then((response) => {
+      if (response.ok) return response.json();
+      throw new Error("Network response was not ok");
+    })
+    .then((data) => {
+      if (data && data.length > 0) {
+        cacheServicesData(data);
+        console.log("🔄 Фоновая синхронизация: данные обновлены");
+      }
+    })
+    .catch((error) => {
+      console.log("🔄 Фоновая синхронизация не удалась:", error.message);
+    });
 }
 
 // Экспорт функций

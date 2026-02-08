@@ -570,3 +570,67 @@ document.addEventListener("DOMContentLoaded", function () {
     5 * 60 * 1000,
   );
 });
+
+// admin.js - добавьте эту функцию
+
+function exportDataForSite() {
+  console.log("📤 Экспорт данных для сайта...");
+
+  const data = {
+    services: currentData.services || [],
+    products: currentData.products || [],
+    pages: currentData.pages || [],
+  };
+
+  // Создаем JSON файл для скачивания
+  const dataStr = JSON.stringify(data, null, 2);
+  const dataBlob = new Blob([dataStr], { type: "application/json" });
+  const dataUrl = URL.createObjectURL(dataBlob);
+
+  const downloadLink = document.createElement("a");
+  downloadLink.href = dataUrl;
+  downloadLink.download = "site-data.json";
+  downloadLink.click();
+
+  console.log("✅ Данные экспортированы для сайта");
+  alert(
+    "Данные экспортированы. Сохраните файл как /data/services.json на вашем сайте.",
+  );
+}
+
+// Добавьте кнопку в админку
+function addExportButton() {
+  const header = document.querySelector(".admin-header");
+  if (!header) return;
+
+  const exportBtn = document.createElement("button");
+  exportBtn.className = "btn-export";
+  exportBtn.innerHTML = '<i class="fas fa-download"></i> Экспорт для сайта';
+  exportBtn.onclick = exportDataForSite;
+
+  header.appendChild(exportBtn);
+
+  // Стили для кнопки
+  const style = document.createElement("style");
+  style.textContent = `
+    .btn-export {
+      background: #6f42c1;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-export:hover {
+      background: #5a32a3;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// Вызовите в конце init
+addExportButton();
