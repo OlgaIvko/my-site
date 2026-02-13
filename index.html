@@ -863,6 +863,17 @@
       </div>
     </footer>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      // Инициализация AOS
+      AOS.init({
+        duration: 800, // длительность анимации
+        once: true, // анимация только один раз
+        offset: 100, // когда срабатывает (через 100px после появления)
+        delay: 0,
+        easing: "ease-out",
+      });
+    </script>
     <script src="./js/vendor/swiper.js"></script>
     <script src="./js/vendor/just-validate.js"></script>
     <script src="./js/vendor/popprjs.min.js"></script>

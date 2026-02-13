@@ -2125,6 +2125,11 @@
     grid-template-columns: 1fr;
   }
 
+  .promo-features {
+    display: flex;
+    flex-direction: column;
+  }
+
   .promo-card {
     border-radius: 12px;
   }
@@ -2136,6 +2141,7 @@
   .promo-order-btn {
     padding: 12px 20px;
     font-size: 14px;
+    width: 50%;
   }
 }
 body.modal-open {
