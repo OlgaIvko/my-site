@@ -1,27 +1,84 @@
 <!doctype html>
+<!doctype html>
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <!-- SEO Meta -->
+    <meta
+      name="description"
+      content="Веб-студия TerraCode — разработка сайтов, интернет-магазинов и мобильных приложений под ключ. UI/UX дизайн, SEO-оптимизация, техническая поддержка 12 месяцев."
+    />
+    <meta
+      name="keywords"
+      content="разработка сайтов, веб-студия, интернет-магазин, лендинг, SEO, дизайн, Липецк"
+    />
+    <meta name="author" content="TerraCode" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Соцсети -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="TerraCode" />
+    <meta
+      property="og:title"
+      content="Веб-студия TerraCode — Разработка сайтов под ключ"
+    />
+    <meta
+      property="og:description"
+      content="Разработка лендингов, интернет-магазинов, мобильных приложений. UI/UX дизайн, SEO, поддержка."
+    />
+    <meta
+      property="og:image"
+      content="https://ваш-домен.ru/images/og-preview.jpg"
+    />
+    <meta property="og:url" content="https://ваш-домен.ru" />
+    <meta property="og:locale" content="ru_RU" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="TerraCode — Разработка сайтов" />
+    <meta
+      name="twitter:description"
+      content="Создание современных цифровых решений для бизнеса"
+    />
+    <meta
+      name="twitter:image"
+      content="https://ваш-домен.ru/images/twitter-preview.jpg"
+    />
+    <!-- Favicon - правильные пути для ваших файлов -->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- Для Android (web app manifest) -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/web-app-manifest-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="512x512"
+      href="/web-app-manifest-512x512.png"
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌐</text></svg>"
+    />
+
+    <meta name="msapplication-TileColor" content="#1a365d" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- CSS -->
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/services.css" />
+    <link rel="stylesheet" href="css/promo.css" />
 
-    <!-- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link
-      rel="icon"
-      type="/favicon_io"
-      sizes="32x32"
-      href="/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="/favicon_io"
-      sizes="16x16"
-      href="./favicon-16x16.png"
-    />
-    <link rel="manifest" href="/site.webmanifest" /> -->
-    <title>Наши услуги - Веб-студия</title>
+    <title>TerraCode | Разработка сайтов под ключ в Липецке</title>
   </head>
 
   <body>
@@ -39,19 +96,24 @@
               <use xlink:href="images/sprite.svg#icon-logo"></use>
             </svg> -->
             <img
-              src="images/logo3.png"
+              src="images/logo.png"
               alt="terraCode"
               width="160"
               height="46"
             />
           </a>
-          <div class="description_conteiner">
-            <!-- Текст слева -->
-
-            <div class="description__texts" style="flex: 1; min-width: 300px">
-              <h2 style="font-size: 32px; margin-bottom: 20px; color: #1a365d">
+          <div class="description_conteiner" data-aos="fade-right">
+            <div
+              class="description__texts seo-content"
+              style="flex: 1; min-width: 300px"
+            >
+              <h2
+                class="section-title section-title--blue"
+                style="font-size: 32px; margin-bottom: 20px; color: #1a365d"
+              >
                 Digital-партнёрство
               </h2>
+
               <p style="font-size: 18px; color: #666; margin-bottom: 15px">
                 <strong>Полный цикл разработки:</strong> от идеи до результата
               </p>
@@ -161,10 +223,9 @@
         </div>
       </section>
 
-      <section class="catalog">
+      <section class="catalog services-catalog">
         <div class="container">
-          <!-- Меняем только заголовок -->
-          <h1 class="catalog__title">Наши услуги</h1>
+          <h1 class="catalog__title page-title">Наши услуги</h1>
 
           <div class="catalog__wrapper">
             <!-- Правая часть - карточки услуг -->
@@ -219,11 +280,31 @@
               data-type="promo"
               data-promo="true"
             >
-              <div class="promo-card">
+              <div
+                class="promo-card"
+                data-aos="fade-up"
+                data-aos-duration="800"
+              >
                 <!-- Левая часть - текст и описание -->
-                <div class="promo-card__content">
-                  <span class="promo-badge">🔥 Спецпредложение</span>
-                  <h2 class="promo-card__title">Запустим вашу доставку еды</h2>
+                <div
+                  class="promo-card__content"
+                  data-aos="fade-right"
+                  data-aos-delay="300"
+                >
+                  <span
+                    class="promo-badge"
+                    data-aos="zoom-in"
+                    data-aos-delay="500"
+                    >🔥 Спецпредложение</span
+                  >
+
+                  <h2
+                    class="promo-card__title"
+                    data-aos="fade-up"
+                    data-aos-delay="600"
+                  >
+                    Запустим вашу доставку еды
+                  </h2>
                   <p class="promo-card__description">
                     Создаем уникальные онлайн-магазины под ключ...
                   </p>
@@ -402,6 +483,9 @@
                         >политикой конфиденциальности</a
                       >
                     </span>
+                    <span class="checkbox-text">
+                      и даю согласие на обработку персональных данных
+                    </span>
                   </label>
                 </div>
 
@@ -472,7 +556,8 @@
       <section class="faq-section">
         <div class="container">
           <div class="faq-container">
-            <h2 class="faq-heading">Часто задаваемые вопросы</h2>
+            <h2 class="faq-heading section-title">Часто задаваемые вопросы</h2>
+
             <div class="faq-accordion">
               <!-- Вопрос 1 -->
               <div class="faq-item">
@@ -684,101 +769,100 @@
       </section>
     </main>
 
-    <footer class="footer">
+    <footer class="footer site-footer">
       <div class="container">
+        <!-- Логотип -->
         <a href="#" class="footer__logo-link">
-          <!-- <svg class="footer__logo" width="160" height="46" aria-hidden="true">
-            <use xlink:href="images/sprite.svg#icon-logo"></use>
-          </svg> -->
-          <img src="images/logo3.png" alt="terraCode" width="160" height="46" />
+          <img
+            src="images/logo_footer.png"
+            alt="terraCode"
+            width="160"
+            height="46"
+          />
         </a>
-        <!-- <div class="footer__main">
-          <div class="footer__menu">
-            <!-- <div class="footer__box"> -->
-        <!-- <div class="footer__contact">
-                <span class="footer__name">Контакты:</span>
-                <a
-                  class="footer__contact-link"
-                  href="mailto:infobriaton@group.ru"
-                  >tisenkoolga045@gmail.com</a
-                >
-                <a class="footer__contact-link" href="tel:+78002220037"
-                  >+7 999-700-57-98</a
-                >
-              </div> -->
-        <!-- </div> -->
-        <!-- <div class="footer__social">
 
-              <span class="footer__name">Присоединяйтесь к нам:</span>
-              <ul class="footer__social-list">
-                <li class="footer__social-item">
-                  <a class="footer__social-link" href="#">Дзен</a>
-                </li>
-                <li class="footer__social-item">
-                  <a class="footer__social-link" href="#">Одноклассники</a>
-                </li>
-                <li class="footer__social-item">
-                  <a class="footer__social-link" href="#">Pinterest</a>
-                </li>
-                <li class="footer__social-item">
-                  <a class="footer__social-link" href="#">Вконтакте</a>
-                </li>
-              </ul>
-            </div> -->
-        <!-- </div> -->
-        <!-- <div class="footer__info">
-            <ul class="footer__cards">
-              <li class="footer__card">
-                <svg
-                  class="footer__logo"
-                  width="44"
-                  height="15"
-                  aria-hidden="true"
-                >
-                  <use xlink:href="images/sprite.svg#icon-visa"></use>
-                </svg>
-              </li>
-              <li class="footer__card">
-                <svg
-                  class="footer__logo"
-                  width="34"
-                  height="22"
-                  aria-hidden="true"
-                >
-                  <use xlink:href="images/sprite.svg#icon-mc"></use>
-                </svg>
-              </li>
-              <li class="footer__card">
-                <svg
-                  class="footer__logo"
-                  width="66"
-                  height="19"
-                  aria-hidden="true"
-                >
-                  <use xlink:href="images/sprite.svg#icon-mir"></use>
-                </svg>
-              </li>
-            </ul>
-          </div> -->
-        <!-- </div>  -->
-
-        <div class="footer__bottom">
-          <div class="footer__contact">
-            <span class="footer__name">Адрес:</span>
-            <span class="footer__contact-link">г. Липецк ул, Гагарина 93</span>
+        <!-- Основная информация -->
+        <div class="footer__main">
+          <!-- Контакты -->
+          <div class="footer__contact-info">
+            <h4 class="footer__title">Контакты</h4>
+            <div class="footer__contact">
+              <span class="footer__contact-link">
+                <i class="fas fa-map-marker-alt"></i> г. Липецк, ул. Гагарина,
+                93
+              </span>
+              <a class="footer__contact-link" href="tel:+79997005798">
+                <i class="fas fa-phone"></i> +7 (999) 700-57-98
+              </a>
+              <a class="footer__contact-link" href="mailto:info@terracode.ru">
+                <i class="fas fa-envelope"></i> info@terracode.ru
+              </a>
+            </div>
           </div>
+
+          <!-- Реквизиты компании -->
+          <div class="footer__company-info">
+            <h4 class="footer__title">ООО «TerraCode»</h4>
+            <div class="footer__details">
+              <span class="footer__detail">ИНН 4826123456</span>
+              <span class="footer__detail">КПП 482601001</span>
+              <span class="footer__detail">ОГРН 1234800012345</span>
+            </div>
+          </div>
+
+          <!-- Документы для договоров -->
+          <div class="footer__documents">
+            <h4 class="footer__title">Официальные документы</h4>
+            <div class="footer__docs-links">
+              <a
+                href="/downloads/privacy-policy.docx"
+                class="footer__doc-link"
+                download
+              >
+                <i class="fas fa-file-word"></i> Политика конфиденциальности
+                (DOCX)
+              </a>
+              <a
+                href="/downloads/consent-form.docx"
+                class="footer__doc-link"
+                download
+              >
+                <i class="fas fa-file-signature"></i> Согласие на обработку ПДн
+              </a>
+              <a
+                href="/downloads/contract-template.docx"
+                class="footer__doc-link"
+                download
+              >
+                <i class="fas fa-file-contract"></i> Шаблон договора
+              </a>
+              <span class="footer__doc-note">
+                <i class="fas fa-info-circle"></i> Для заключения договора
+                скачайте и заполните бланки
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Нижняя часть футера -->
+        <div class="footer__bottom">
           <div class="footer__policy">
-            <a class="footer__policy-link" href="#"
+            <a class="footer__policy-link" href="/privacy-policy"
               >Политика обработки персональных данных</a
             >
-            <a class="footer__policy-link" href="#"
+            <span class="footer__separator">|</span>
+            <a class="footer__policy-link" href="/privacy-policy"
               >Политика конфиденциальности</a
             >
           </div>
-          <span class="footer__copyright">© ООО "terraCode"</span>
+          <div class="footer__copyright">
+            <span>© ООО «TerraCode», 2024</span>
+            <span>Все права защищены</span>
+          </div>
         </div>
       </div>
     </footer>
+
     <script src="./js/vendor/swiper.js"></script>
     <script src="./js/vendor/just-validate.js"></script>
     <script src="./js/vendor/popprjs.min.js"></script>

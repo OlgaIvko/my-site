@@ -178,7 +178,9 @@ function showPromoContactForm(serviceData) {
             <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
               <input type="checkbox" name="agreement" required style="margin-top: 3px;">
               <span style="font-size: 14px; color: #666;">
-                Согласен с обработкой персональных данных
+                 Я принимаю условия <a href="#" class="privacy-link"
+                        >политикой конфиденциальности</a></span>
+                        <span style="font-size: 14px; color: #666;"> и даю согласие на обработку персональных данных
               </span>
             </label>
           </div>
@@ -199,15 +201,17 @@ function showPromoContactForm(serviceData) {
             </button>
 
             <button type="button" class="modal-close" style="
-              padding: 12px 20px;
+              padding: 20px 20px;
               background: #f3f4f6;
               color: #666;
               border: 1px solid #ddd;
               border-radius: 6px;
               cursor: pointer;
               font-size: 16px;
+              width: 20px;
+              height: 10px;
             ">
-              Отмена
+              X
             </button>
           </div>
         </form>

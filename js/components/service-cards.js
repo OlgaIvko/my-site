@@ -827,17 +827,7 @@ function addSliderStyles() {
       transform: scale(1.1);
     }
 
-    /* Бейдж */
-    .promo-badge {
-      background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
-      color: white;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      display: inline-block;
-      margin-bottom: 15px;
-      align-self: flex-start;
-    }
+
 
     /* Стили для модального окна */
     .service-modal {

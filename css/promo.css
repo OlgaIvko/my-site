@@ -1,0 +1,474 @@
+/* ===== АНИМАЦИИ ДЛЯ ПРОМО-КАРТОЧКИ ===== */
+
+/* Основная карточка - появление */
+.promo-card {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  height: 1037px;
+  overflow: hidden;
+
+  /* Анимация появления */
+  animation: slideInUp 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+/* Видео контейнер */
+.promo-card-video {
+  width: 100%;
+  overflow: hidden;
+}
+
+.promo-card-video {
+  display: grid;
+
+  height: 1037px;
+
+  overflow: hidden;
+}
+
+/* Контент карточки */
+.promo-card__content {
+  animation: fadeInLeft 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0.3s forwards;
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+/* Бейдж */
+.promo-badge {
+  animation: zoomIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s forwards;
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+/* Заголовок */
+.promo-card__title {
+  animation: fadeInUp 0.6s ease-out 0.6s forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Описание */
+.promo-card__description {
+  animation: fadeInUp 0.6s ease-out 0.7s forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Фичи (список преимуществ) */
+.promo-feature {
+  animation: slideInLeft 0.5s ease-out forwards;
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+/* Анимация для каждой фичи с задержкой */
+.promo-feature:nth-child(1) {
+  animation-delay: 0.8s;
+}
+.promo-feature:nth-child(2) {
+  animation-delay: 0.9s;
+}
+.promo-feature:nth-child(3) {
+  animation-delay: 1s;
+}
+.promo-feature:nth-child(4) {
+  animation-delay: 1.1s;
+}
+
+/* Бейджи-фичи */
+.promo-badge--input {
+  animation: pulse 2s infinite;
+  animation: scaleIn 0.5s ease-out forwards;
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.promo-badge--input:nth-child(5) {
+  animation-delay: 1.2s;
+}
+.promo-badge--input:nth-child(6) {
+  animation-delay: 1.3s;
+}
+
+/* Блок с ценой */
+.price-wrapper {
+  animation: fadeInUp 0.8s ease-out 1.4s forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* Кнопка */
+.promo-order-btn {
+  animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) 1.6s forwards;
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+/* ===== КЛЮЧЕВЫЕ КАДРЫ ===== */
+
+/* Появление снизу */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Появление слева */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Появление справа */
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Появление слева */
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Появление снизу */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Появление с масштабированием */
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Пружинистое появление */
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Масштабирование */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Пульсация */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Параллакс эффект для видео */
+.video-wrapper {
+  position: relative;
+  overflow: hidden;
+  height: 1037px;
+}
+
+@keyframes slowZoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+/* ===== АНИМАЦИЯ ПРИ ХОВЕРЕ ===== */
+
+.promo-card {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.promo-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+}
+
+.promo-order-btn {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.promo-order-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(255, 107, 107, 0.4);
+}
+
+.promo-order-btn::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.6s,
+    height 0.6s;
+}
+
+.promo-order-btn:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+.promo-feature {
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
+  cursor: default;
+}
+
+.promo-feature:hover {
+  transform: translateX(10px);
+  color: #ff6b6b;
+}
+
+.promo-badge--input {
+  transition: all 0.3s ease;
+}
+
+.promo-badge--input:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(255, 107, 107, 0.2);
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  color: white;
+}
+
+/* ===== АНИМАЦИЯ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ ===== */
+
+/* Прогресс-бар загрузки */
+.page-load-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+  background-size: 300% 300%;
+  width: 0%;
+  z-index: 9999;
+  animation: gradientMove 3s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Анимация для фоновых элементов */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 1034px) {
+  .promo-card {
+    height: 1092px;
+  }
+}
+@media (max-width: 1024px) {
+  .promo-card {
+    grid-template-columns: 1fr;
+    height: 1092px;
+  }
+
+  .promo-card-video {
+    display: block;
+    overflow: visible;
+    height: 1092px;
+  }
+
+  .promo-card__content {
+    padding: 30px;
+  }
+
+  /* Отключаем анимации на мобильных для производительности */
+  .promo-card,
+  .promo-card__content,
+  .promo-feature,
+  .promo-order-btn {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .promo-card__content {
+    padding: 20px;
+  }
+  .promo-card-video {
+    max-height: 700px;
+  }
+}
+
+@media (max-width: 480px) {
+  .promo-card-video {
+    max-height: 600px;
+  }
+}
+
+/* ===== ДОПОЛНИТЕЛЬНЫЕ ЭФФЕКТЫ ===== */
+
+/* Свечение для активных элементов */
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 107, 107, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 107, 107, 0.2);
+  }
+}
+
+.promo-badge--input:hover {
+  animation: glow 1.5s infinite;
+}
+
+/* Эффект печатной машинки для заголовка */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+/* Анимация для цены */
+.current-price {
+  position: relative;
+  display: inline-block;
+}
+
+.current-price::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #ff6b6b;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.current-price:hover::after {
+  transform: scaleX(1);
+}
+
+/* Анимация для иконок в бейджах */
+.promo-badge--input span {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.promo-badge--input:hover span {
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(10deg);
+  }
+  75% {
+    transform: rotate(-10deg);
+  }
+}

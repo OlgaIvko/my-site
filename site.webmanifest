@@ -1,0 +1,21 @@
+{
+    "name": "TerraCode - Веб-студия",
+    "short_name": "TerraCode",
+    "description": "Разработка сайтов, интернет-магазинов и мобильных приложений",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#1a365d",
+    "icons": [
+        {
+            "src": "/favicon-32x32.png",
+            "sizes": "32x32",
+            "type": "image/png"
+        },
+        {
+            "src": "/favicon-16x16.png",
+            "sizes": "16x16",
+            "type": "image/png"
+        }
+    ]
+}

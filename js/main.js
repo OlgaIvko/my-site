@@ -50,3 +50,33 @@ if (document.readyState === "loading") {
 window.debugServices = function () {
   console.log("🔍 Данные услуг:", window.allServices || "Нет данных");
 };
+// Добавьте в ваш main.js
+document.addEventListener("DOMContentLoaded", function () {
+  // Анимация при скролле
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px",
+  };
+
+  const observer = new IntersectionObserver(function (entries) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("animated");
+
+        // Добавляем классы анимации для дочерних элементов
+        const children = entry.target.querySelectorAll("[data-animate]");
+        children.forEach((child, index) => {
+          setTimeout(() => {
+            child.classList.add("animate-in");
+          }, index * 100);
+        });
+      }
+    });
+  }, observerOptions);
+
+  // Наблюдаем за промо-карточкой
+  const promoCard = document.querySelector(".promo-card");
+  if (promoCard) {
+    observer.observe(promoCard);
+  }
+});

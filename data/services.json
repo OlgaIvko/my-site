@@ -3,7 +3,7 @@
     "id": 2,
     "title": "Интернет-магазин",
     "description": "Полнофункциональный магазин с системой управления товарами и заказами",
-    "price": "от 190 000 ₽",
+    "price": "от 180 000 ₽",
     "type": "shop",
     "features": [
       "Каталог товаров",
@@ -99,18 +99,17 @@
   },
   {
     "id": 1770562068261,
-    "title": "Мобильное приложение os",
-    "description": "os",
-    "price": "от 300 000 ₽",
-    "type": "mobile",
+    "title": "Дизайн в Figma",
+    "description": "Дизайн в Figma",
+    "price": "от 5000 ₽",
+    "type": "design",
     "features": [
-      "r"
+      "Figma"
     ],
     "popular": true,
     "images": [
-      "https://images.unsplash.com/photo-1.jpg",
-      "https://images.unsplash.com/photo-2.jpg",
-      "https://images.unsplash.com/photo-3.jpg"
+      "images/figma2.jpg",
+      "images/figma.jpg"
     ],
     "details": {
       "timeline": "2-4 недели",

@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Скачать документы TerraCode: политика конфиденциальности, согласие на обработку персональных данных в форматах PDF, DOCX, TXT"
+    />
+    <title>Скачать документы - Политика конфиденциальности TerraCode</title>
+
+    <!-- Font Awesome для иконок -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+
+    <!-- Основные стили -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/downloads.css" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico" />
+  </head>
+  <body class="downloads-page">
+    <!-- Хлебные крошки -->
+    <div class="breadcrumbs">
+      <div class="container">
+        <ul class="breadcrumbs__list">
+          <li class="breadcrumbs__item">
+            <a href="/" class="breadcrumbs__link">Главная</a>
+          </li>
+          <li class="breadcrumbs__item">Документы</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Хедер страницы -->
+    <header class="downloads-header">
+      <div class="container">
+        <div class="downloads-header__content">
+          <div class="downloads-header__icon">
+            <i class="fas fa-file-contract fa-2x"></i>
+          </div>
+          <h1 class="downloads-header__title">
+            Документы по персональным данным
+          </h1>
+          <p class="downloads-header__subtitle">
+            Скачайте актуальные версии документов в удобном формате.<br />
+            Все документы соответствуют требованиям ФЗ-152 «О персональных
+            данных».
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="downloads-main">
+      <div class="container">
+        <!-- Сетка карточек -->
+        <div class="downloads-grid">
+          <!-- Карточка 1: PDF -->
+          <div class="download-card" data-aos="fade-up">
+            <span class="download-card__badge">Рекомендуем</span>
+            <div class="download-card__icon">
+              <i class="fas fa-file-pdf fa-2x"></i>
+            </div>
+            <h3 class="download-card__title">Политика конфиденциальности</h3>
+            <p class="download-card__description">
+              Полная версия документа в формате PDF. Подходит для печати и
+              официального ознакомления.
+            </p>
+            <div class="download-card__meta">
+              <span class="download-card__format">PDF</span>
+              <span class="download-card__size"
+                ><i class="far fa-file"></i> 245 КБ</span
+              >
+            </div>
+            <a
+              href="/downloads/privacy-policy.pdf"
+              class="download-btn download-btn--primary"
+              download
+            >
+              <i class="fas fa-download"></i>
+              Скачать PDF
+            </a>
+          </div>
+
+          <!-- Карточка 2: DOCX -->
+          <div class="download-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="download-card__icon">
+              <i class="fas fa-file-word fa-2x"></i>
+            </div>
+            <h3 class="download-card__title">Политика конфиденциальности</h3>
+            <p class="download-card__description">
+              Редактируемый документ в формате Word. Можете адаптировать под
+              свои нужды.
+            </p>
+            <div class="download-card__meta">
+              <span class="download-card__format">DOCX</span>
+              <span class="download-card__size"
+                ><i class="far fa-file"></i> 56 КБ</span
+              >
+            </div>
+            <button
+              onclick="downloadPrivacyPolicyDocx()"
+              class="download-btn download-btn--secondary"
+            >
+              <i class="fas fa-download"></i>
+              Скачать DOCX
+            </button>
+          </div>
+
+          <!-- Карточка 3: Согласие -->
+          <div class="download-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="download-card__icon">
+              <i class="fas fa-file-signature fa-2x"></i>
+            </div>
+            <h3 class="download-card__title">Согласие на обработку</h3>
+            <p class="download-card__description">
+              Готовая форма согласия для заполнения и подписания клиентами.
+            </p>
+            <div class="download-card__meta">
+              <span class="download-card__format">DOCX</span>
+              <span class="download-card__size"
+                ><i class="far fa-file"></i> 42 КБ</span
+              >
+            </div>
+            <button
+              onclick="downloadConsentForm()"
+              class="download-btn download-btn--secondary"
+            >
+              <i class="fas fa-download"></i>
+              Скачать DOCX
+            </button>
+          </div>
+
+          <!-- Карточка 4: TXT -->
+          <div class="download-card" data-aos="fade-up" data-aos-delay="300">
+            <div class="download-card__icon">
+              <i class="fas fa-file-alt fa-2x"></i>
+            </div>
+            <h3 class="download-card__title">Краткая версия</h3>
+            <p class="download-card__description">
+              Текстовый файл с основными положениями для быстрого ознакомления.
+            </p>
+            <div class="download-card__meta">
+              <span class="download-card__format">TXT</span>
+              <span class="download-card__size"
+                ><i class="far fa-file"></i> 18 КБ</span
+              >
+            </div>
+            <button
+              onclick="downloadPrivacyPolicyTxt()"
+              class="download-btn download-btn--secondary"
+            >
+              <i class="fas fa-download"></i>
+              Скачать TXT
+            </button>
+          </div>
+
+          <!-- Карточка 5: Для юрлиц -->
+          <div class="download-card" data-aos="fade-up" data-aos-delay="400">
+            <div class="download-card__icon">
+              <i class="fas fa-building fa-2x"></i>
+            </div>
+            <h3 class="download-card__title">Для юридических лиц</h3>
+            <p class="download-card__description">
+              Дополнительное соглашение и приложения для работы
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

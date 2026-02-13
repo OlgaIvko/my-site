@@ -1342,13 +1342,253 @@
   }
 }
 
-/* Промо-карточка */
-.promo-card {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  height: 1020px;
+/* ===== АНИМАЦИИ ДЛЯ ПРОМО-КАРТОЧКИ ===== */
 
-  overflow: hidden;
+/* ===== КЛЮЧЕВЫЕ КАДРЫ ===== */
+
+/* Появление снизу */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Появление слева */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Появление справа */
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Появление слева */
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Появление снизу */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Появление с масштабированием */
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Пружинистое появление */
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Масштабирование */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Пульсация */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes slowZoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+/* ===== АНИМАЦИЯ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ ===== */
+
+/* Прогресс-бар загрузки */
+.page-load-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+  background-size: 300% 300%;
+  width: 0%;
+  z-index: 9999;
+  animation: gradientMove 3s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Анимация для фоновых элементов */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* ===== ДОПОЛНИТЕЛЬНЫЕ ЭФФЕКТЫ ===== */
+
+/* Свечение для активных элементов */
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 107, 107, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 107, 107, 0.2);
+  }
+}
+
+.promo-badge--input:hover {
+  animation: glow 1.5s infinite;
+}
+
+/* Эффект печатной машинки для заголовка */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+/* Анимация для цены */
+.current-price {
+  position: relative;
+  display: inline-block;
+}
+
+.current-price::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #ff6b6b;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.current-price:hover::after {
+  transform: scaleX(1);
+}
+
+/* Анимация для иконок в бейджах */
+.promo-badge--input span {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.promo-badge--input:hover span {
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(10deg);
+  }
+  75% {
+    transform: rotate(-10deg);
+  }
 }
 
 .promo-card--regular {
@@ -1364,23 +1604,10 @@
     box-shadow 0.3s ease;
 }
 
-.promo-card-video {
-  display: grid;
-  grid-template-columns: 400px 10px;
-  height: 1020px;
-
-  overflow: hidden;
-}
 @media (max-width: 1025px) {
   .promo-card-video {
     grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 768px) {
-  .promo-card {
-    grid-template-columns: 1fr;
-    border-radius: 16px;
+    object-fit: cover;
   }
 }
 
@@ -1397,23 +1624,6 @@
 .promo-card--regular .promo-card__content {
   /* background: #efd2ed; */
   background: #d8dee5;
-}
-
-.video-wrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-.video-wrapper video {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
 }
 
 /* Бейдж */
@@ -1501,9 +1711,18 @@
     flex-direction: column;
   }
 
-  .promo-card-wrapper,
+  .promo-card-wrapper {
+    width: 100%;
+    border-radius: 0 0 20px 20px;
+  }
+
+  .promo-card__content .promo-card {
+    width: 100%;
+    border-radius: 0 0 20px 20px;
+  }
   .form-wrapper {
     width: 100%;
+    border-radius: 0 0 20px 20px;
   }
 }
 

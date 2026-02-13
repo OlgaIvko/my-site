@@ -1,0 +1,545 @@
+/* ========== СТРАНИЦА СКАЧИВАНИЯ ДОКУМЕНТОВ ========== */
+
+.downloads-page {
+  background: #f5f7fa;
+  min-height: 100vh;
+  font-family:
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+/* Хедер страницы скачивания */
+.downloads-header {
+  background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+  color: white;
+  padding: 60px 0 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.downloads-header::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 50%
+  );
+  animation: rotate 30s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.downloads-header .container {
+  position: relative;
+  z-index: 2;
+}
+
+.downloads-header__content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.downloads-header__title {
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.downloads-header__subtitle {
+  font-size: 18px;
+  line-height: 1.6;
+  opacity: 0.9;
+  margin-bottom: 30px;
+}
+
+.downloads-header__icon {
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 30px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Основной контент */
+.downloads-main {
+  margin-top: -40px;
+  padding-bottom: 80px;
+}
+
+.downloads-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  margin-bottom: 50px;
+}
+
+/* Карточки для скачивания */
+.download-card {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(52, 153, 255, 0.1);
+}
+
+.download-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(52, 153, 255, 0.15);
+  border-color: #3499ff;
+}
+
+.download-card__badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #ff6b6b, #f03e3e);
+  color: white;
+  padding: 5px 15px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.download-card__icon {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #e3f0ff, #d4e6ff);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+  color: #3499ff;
+  font-size: 30px;
+  transition: all 0.3s ease;
+}
+
+.download-card:hover .download-card__icon {
+  background: linear-gradient(135deg, #3499ff, #1a5eb3);
+  color: white;
+  transform: scale(1.1) rotate(360deg);
+}
+
+.download-card__title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a365d;
+  margin-bottom: 10px;
+}
+
+.download-card__description {
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.download-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.download-card__format {
+  background: #f3f4f6;
+  color: #4b5563;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.download-card__size {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+.download-card__size i {
+  margin-right: 5px;
+}
+
+/* Кнопки скачивания */
+.download-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.download-btn--primary {
+  background: linear-gradient(135deg, #3499ff, #1a5eb3);
+  color: white;
+  box-shadow: 0 4px 15px rgba(52, 153, 255, 0.3);
+}
+
+.download-btn--primary:hover {
+  background: linear-gradient(135deg, #1a5eb3, #0f3a6b);
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(52, 153, 255, 0.4);
+}
+
+.download-btn--secondary {
+  background: #f8fafc;
+  color: #1a365d;
+  border: 1px solid #e2e8f0;
+}
+
+.download-btn--secondary:hover {
+  background: #edf2f7;
+  border-color: #3499ff;
+}
+
+/* Форма согласия */
+.consent-section {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  margin-top: 40px;
+}
+
+.consent-section__title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a365d;
+  margin-bottom: 10px;
+}
+
+.consent-section__subtitle {
+  color: #6b7280;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.consent-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.consent-form__group {
+  margin-bottom: 0;
+}
+
+.consent-form__group--full {
+  grid-column: span 2;
+}
+
+.consent-form__label {
+  display: block;
+  margin-bottom: 8px;
+  color: #4b5563;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.consent-form__input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  background: #f9fafb;
+}
+
+.consent-form__input:focus {
+  outline: none;
+  border-color: #3499ff;
+  box-shadow: 0 0 0 3px rgba(52, 153, 255, 0.1);
+  background: white;
+}
+
+.consent-form__input::placeholder {
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.consent-checkbox {
+  grid-column: span 2;
+  margin: 20px 0;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.consent-checkbox__label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.consent-checkbox__input {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.consent-checkbox__text {
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.consent-checkbox__text a {
+  color: #3499ff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.consent-checkbox__text a:hover {
+  text-decoration: underline;
+}
+
+/* Кнопка отправки формы */
+.consent-submit {
+  grid-column: span 2;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.consent-submit:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+}
+
+/* Уведомления */
+.download-notification {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  padding: 16px 25px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 500;
+  z-index: 9999;
+  animation: slideInRight 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.download-notification.success {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.download-notification.error {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.download-notification.info {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .downloads-header__title {
+    font-size: 32px;
+  }
+
+  .downloads-header {
+    padding: 40px 0 60px;
+  }
+
+  .downloads-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .consent-form {
+    grid-template-columns: 1fr;
+  }
+
+  .consent-form__group--full,
+  .consent-checkbox,
+  .consent-submit {
+    grid-column: span 1;
+  }
+
+  .consent-section {
+    padding: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .downloads-header__title {
+    font-size: 24px;
+  }
+
+  .download-card {
+    padding: 20px;
+  }
+
+  .consent-form__input {
+    padding: 10px 12px;
+  }
+}
+
+/* Анимации */
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.download-card__icon {
+  animation: pulse 3s infinite ease-in-out;
+}
+
+/* Стили для футера */
+.downloads-footer {
+  background: #1e293b;
+  color: white;
+  padding: 40px 0;
+  margin-top: 60px;
+}
+
+.downloads-footer__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.downloads-footer__links a {
+  color: #94a3b8;
+  text-decoration: none;
+  margin-left: 30px;
+  transition: color 0.3s ease;
+}
+
+.downloads-footer__links a:hover {
+  color: white;
+}
+
+/* Прогресс-бар при скачивании */
+.download-progress {
+  height: 4px;
+  background: #e2e8f0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+  margin-top: 15px;
+}
+
+.download-progress__bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #3499ff, #1a5eb3);
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+/* Иконки */
+.download-icon {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Хлебные крошки */
+.breadcrumbs {
+  padding: 20px 0;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.breadcrumbs__list {
+  display: flex;
+  list-style: none;
+  gap: 10px;
+}
+
+.breadcrumbs__item {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.breadcrumbs__item:not(:last-child):after {
+  content: "/";
+  margin-left: 10px;
+  color: #9ca3af;
+}
+
+.breadcrumbs__link {
+  color: #3499ff;
+  text-decoration: none;
+}
+
+.breadcrumbs__link:hover {
+  text-decoration: underline;
+}

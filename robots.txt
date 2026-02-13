@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ваш-домен.ru/sitemap.xml
+
+# Запрещаем служебные пути
+Disallow: /admin/
+Disallow: /data/
+Disallow: /node_modules/
+Disallow: /vendor/
