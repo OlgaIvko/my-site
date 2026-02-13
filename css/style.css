@@ -2421,7 +2421,7 @@ button {
   }
 }
 
-@media (max-width: 390px) {
+@media (max-width: 560px) {
   .footer__logo-link {
     left: 60%;
     top: -22px;

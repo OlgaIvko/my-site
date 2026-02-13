@@ -80,3 +80,58 @@ document.addEventListener("DOMContentLoaded", function () {
     observer.observe(promoCard);
   }
 });
+
+function setCookie(name, value, days) {
+  let expires = "";
+  if (days) {
+    const date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    expires = "; expires=" + date.toUTCString();
+  }
+  document.cookie =
+    name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
+}
+
+// Функция для получения куки
+function getCookie(name) {
+  const nameEQ = name + "=";
+  const ca = document.cookie.split(";");
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === " ") c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Проверяем, есть ли кука consent
+  if (!getCookie("cookieConsent")) {
+    // Показываем баннер через 1 секунду
+    setTimeout(function () {
+      document.getElementById("cookie-consent-banner").style.display = "block";
+    }, 1000);
+  }
+
+  // Кнопка "Принять"
+  document
+    .getElementById("cookie-accept")
+    .addEventListener("click", function () {
+      setCookie("cookieConsent", "accepted", 365); // хранится 365 дней
+      document.getElementById("cookie-consent-banner").style.display = "none";
+
+      // Здесь можно включить аналитику, если она есть
+      console.log("Куки приняты");
+    });
+
+  // Кнопка "Отклонить"
+  document
+    .getElementById("cookie-decline")
+    .addEventListener("click", function () {
+      setCookie("cookieConsent", "declined", 7); // хранится 7 дней
+      document.getElementById("cookie-consent-banner").style.display = "none";
+
+      // Здесь можно отключить аналитику
+      console.log("Куки отклонены");
+    });
+});
