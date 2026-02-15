@@ -735,7 +735,8 @@
   }
 
   .benefit-stat {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
+    font-weight: 400;
   }
 
   /* Отключаем анимацию float на мобильных */
