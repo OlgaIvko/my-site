@@ -135,3 +135,19 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("Куки отклонены");
     });
 });
+// Добавьте в ваш main.js для лучшего отклика на мобильных
+document.addEventListener("DOMContentLoaded", function () {
+  const badges = document.querySelectorAll(".tech-badge");
+
+  badges.forEach((badge) => {
+    badge.addEventListener("touchstart", function () {
+      this.classList.add("touch-active");
+    });
+
+    badge.addEventListener("touchend", function () {
+      setTimeout(() => {
+        this.classList.remove("touch-active");
+      }, 300);
+    });
+  });
+});
