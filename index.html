@@ -47,6 +47,11 @@
       name="twitter:image"
       content="https://ваш-домен.ru/images/twitter-preview.jpg"
     />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <!-- Favicon - правильные пути для ваших файлов -->
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="shortcut icon" href="/favicon.ico" />
@@ -77,6 +82,7 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/services.css" />
     <link rel="stylesheet" href="css/promo.css" />
+    <link rel="stylesheet" href="css/benefits.css" />
 
     <title>TerraCode | Разработка сайтов под ключ в Липецке</title>
   </head>
@@ -521,38 +527,212 @@
             <h2 class="day-products__title">Товары дня</h2>
           </div> -->
 
-      <section class="description description-about">
+      <section class="benefits-section">
         <div class="container">
-          <h2 class="visually-hidden">О нашей компании</h2>
-          <div class="description__texts">
-            <p>
-              Мы — команда веб-разработчиков, создающая современные цифровые
-              решения для бизнеса. Специализируемся на разработке сайтов,
-              интернет-магазинов и веб-приложений, которые работают на
-              результат.
+          <div class="section-header">
+            <h2 class="section-title">
+              Почему с нами <span>выгодно</span> работать
+            </h2>
+            <p class="section-subtitle">
+              Не просто разработка, а партнерство, которое приносит реальные
+              результаты вашему бизнесу
             </p>
+          </div>
 
-            <p>
-              Наш подход сочетает креативный дизайн, качественную техническую
-              реализацию и понимание бизнес-задач. Мы не просто пишем код — мы
-              создаем инструменты для привлечения клиентов и увеличения продаж.
-            </p>
+          <div class="benefits-grid">
+            <!-- Карточка 1 - Индивидуальный подход (вместо экспертизы) -->
+            <div class="benefit-card">
+              <div class="benefit-icon-wrapper">
+                <div class="benefit-icon">
+                  <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <div class="benefit-stat">VIP</div>
+              </div>
+              <h3 class="benefit-title">Индивидуальный подход</h3>
+              <p class="benefit-description">
+                Каждый проект для нас уникален. Мы не используем шаблоны —
+                создаем решение специально под ваши задачи, бюджет и целевую
+                аудиторию
+              </p>
+              <div class="benefit-tags">
+                <span class="benefit-tag">Личный менеджер</span>
+                <span class="benefit-tag">Без шаблонов</span>
+                <span class="benefit-tag">Под ваш бюджет</span>
+              </div>
+            </div>
 
-            <p>
-              В каталоге представлены ключевые услуги: от создания лендингов и
-              корпоративных сайтов до сложных интернет-магазинов. Каждый проект
-              разрабатывается индивидуально с учетом специфики вашего бизнеса.
-            </p>
+            <!-- Карточка 2 - Прозрачность и честность -->
+            <div class="benefit-card">
+              <div class="benefit-icon-wrapper">
+                <div
+                  class="benefit-icon"
+                  style="background: linear-gradient(135deg, #3b82f6, #8b5cf6)"
+                >
+                  <i class="fas fa-eye"></i>
+                </div>
+                <div class="benefit-stat">100%</div>
+              </div>
+              <h3 class="benefit-title">Полная прозрачность</h3>
+              <p class="benefit-description">
+                Вы всегда знаете, на каком этапе проект, куда идут деньги и
+                когда будет результат. Открытые отчеты и доступ к системам
+                управления проектами
+              </p>
+              <div class="benefit-features">
+                <div class="benefit-feature">
+                  <i class="fas fa-check-circle"></i>
+                  <span>Еженедельные отчеты</span>
+                </div>
+                <div class="benefit-feature">
+                  <i class="fas fa-check-circle"></i>
+                  <span>Доступ к Trello/Asana</span>
+                </div>
+              </div>
+            </div>
 
-            <p>
-              Работаем на результат: обеспечиваем техническую поддержку,
-              аналитику эффективности и помогаем развивать ваш цифровой продукт
-              после запуска.
-            </p>
+            <!-- Карточка 3 - Быстрый старт -->
+            <div class="benefit-card">
+              <div class="benefit-icon-wrapper">
+                <div
+                  class="benefit-icon"
+                  style="background: linear-gradient(135deg, #ec4899, #f59e0b)"
+                >
+                  <i class="fas fa-rocket"></i>
+                </div>
+                <div class="benefit-stat">7 дней</div>
+              </div>
+              <h3 class="benefit-title">Быстрый старт</h3>
+              <p class="benefit-description">
+                От концепции до первого результата. Мы умеем работать быстро без
+                потери качества. Первую версию сайта вы увидите уже через 7 дней
+              </p>
+              <div class="benefit-features">
+                <div class="benefit-feature">
+                  <i class="fas fa-check-circle"></i>
+                  <span>Прототип за 3 дня</span>
+                </div>
+                <div class="benefit-feature">
+                  <i class="fas fa-check-circle"></i>
+                  <span>Демо через неделю</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Карточка 4 - Результат, а не просто код -->
+            <div class="benefit-card">
+              <div class="benefit-icon-wrapper">
+                <div
+                  class="benefit-icon"
+                  style="background: linear-gradient(135deg, #10b981, #06d6a0)"
+                >
+                  <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="benefit-stat">ROI</div>
+              </div>
+              <h3 class="benefit-title">Ориентация на результат</h3>
+              <p class="benefit-description">
+                Нам важно не просто сдать проект, а чтобы он приносил вам
+                клиентов. Анализируем эффективность и предлагаем улучшения после
+                запуска
+              </p>
+              <div class="benefit-features">
+                <div class="benefit-feature">
+                  <i class="fas fa-check-circle"></i>
+                  <span>Аналитика конверсий</span>
+                </div>
+                <div class="benefit-feature">
+                  <i class="fas fa-check-circle"></i>
+                  <span>Рекомендации по улучшению</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Карточка 5 - Поддержка и обучение -->
+            <div class="benefit-card tech-card">
+              <div class="benefit-icon-wrapper">
+                <div
+                  class="benefit-icon"
+                  style="background: linear-gradient(135deg, #ff6b6b, #f03e3e)"
+                >
+                  <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="tech-badge">Бонус</div>
+              </div>
+              <h3 class="benefit-title">Обучение и поддержка</h3>
+              <p class="benefit-description">
+                Научим вас управлять сайтом: как добавлять товары, менять
+                контент, смотреть статистику. Вы не будете зависеть от
+                разработчиков
+              </p>
+              <!-- <div class="tech-demo">
+                <span class="tech-status status-active">
+                  <i class="fas fa-circle"></i> Видеоуроки
+                </span>
+                <a href="#" class="tech-link"
+                  >Пример обучения <i class="fas fa-arrow-right"></i
+                ></a>
+              </div> -->
+            </div>
+
+            <!-- Карточка 6 - Адаптивность и современность -->
+            <div class="benefit-card tech-card">
+              <div class="benefit-icon-wrapper">
+                <div
+                  class="benefit-icon"
+                  style="background: linear-gradient(135deg, #6c5ce7, #4a40b0)"
+                >
+                  <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="tech-badge">Тренд</div>
+              </div>
+              <h3 class="benefit-title">Современные стандарты</h3>
+              <p class="benefit-description">
+                Сайты, которые идеально выглядят на всех устройствах, быстро
+                грузятся и соответствуют последним трендам веб-дизайна
+              </p>
+              <div class="tech-demo">
+                <span class="tech-status status-active">
+                  <i class="fas fa-circle"></i> Mobile First
+                </span>
+                <a href="#" class="tech-link"
+                  >Примеры работ <i class="fas fa-arrow-right"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Блок с результатами - конкретные цифры -->
+          <div class="benefits-results">
+            <div class="result-item">
+              <div class="result-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="result-content">
+                <div class="result-value">7 дней</div>
+                <div class="result-label">до первого результата</div>
+              </div>
+            </div>
+            <div class="result-item">
+              <div class="result-icon">
+                <i class="fas fa-hand-holding-heart"></i>
+              </div>
+              <div class="result-content">
+                <div class="result-value">24/7</div>
+                <div class="result-label">поддержка</div>
+              </div>
+            </div>
+            <div class="result-item">
+              <div class="result-icon">
+                <i class="fas fa-smile"></i>
+              </div>
+              <div class="result-content">
+                <div class="result-value">100%</div>
+                <div class="result-label">прозрачность</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
-
       <section class="faq-section">
         <div class="container">
           <div class="faq-container">
