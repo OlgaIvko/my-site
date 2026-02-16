@@ -253,30 +253,26 @@ function createModal() {
       <div class="modal-overlay"></div>
       <div class="modal-container">
         <button class="modal-close" aria-label="Закрыть окно">
-          х
+          Х
         </button>
 
         <div class="modal-content">
           <!-- Левая часть: Большое изображение -->
-        <div class="modal-image-section">
-  <div class="modal-main-image-container">
-    <img src="" alt="" class="modal-main-image" id="modalMainImage">
+          <div class="modal-image-section">
+            <div class="modal-main-image-container">
+              <img src="" alt="" class="modal-main-image" id="modalMainImage">
+              <button class="modal-prev" aria-label="Предыдущее изображение">
 
-    <!-- Кнопка "Назад" с простым символом -->
-    <button class="modal-prev" aria-label="Предыдущее изображение">
-      ←
-    </button>
+              </button>
+              <button class="modal-next" aria-label="Следующее изображение">
 
-    <!-- Кнопка "Вперед" с простым символом -->
-    <button class="modal-next" aria-label="Следующее изображение">
-      →
-    </button>
-  </div>
+              </button>
+            </div>
 
-  <div class="modal-thumbnails" id="modalThumbnails">
-    <!-- Миниатюры будут добавлены динамически -->
-  </div>
-</div>
+            <div class="modal-thumbnails" id="modalThumbnails">
+              <!-- Миниатюры будут добавлены динамически -->
+            </div>
+          </div>
 
           <!-- Правая часть: Описание и детали -->
           <div class="modal-info-section">
@@ -839,9 +835,7 @@ function addSliderStyles() {
     }
 
     .service-modal.active {
-      display: flex;
-  align-items: center;
-  justify-content: center;
+      display: block;
     }
 
     .modal-overlay {
@@ -855,10 +849,10 @@ function addSliderStyles() {
     }
 
     .modal-container {
-        position: relative;
-      // top: 50%;
-      // left: 50%;
-      // transform: translate(-50%, -50%);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       width: 90%;
       max-width: 1000px;
       max-height: 90vh;
@@ -866,9 +860,24 @@ function addSliderStyles() {
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-      margin: 0 auto;
     }
 
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
 
     .modal-close:hover {
       background: white;
@@ -901,181 +910,52 @@ function addSliderStyles() {
     .modal-main-image {
       width: 100%;
       height: 100%;
-      min-height: 400px;
+      max-height: 400px;
       object-fit: cover;
       transition: opacity 0.3s ease;
     }
 
-    ./* Контейнер главного изображения */
-.modal-main-image-container {
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  aspect-ratio: 4/3; /* Фиксированное соотношение сторон */
+    @media (max-width: 480px) {
+
+
+      .modal-main-image{
+      max-height: 288px;
+          border-radius: 10px;
+      }
 }
 
-/* Главное изображение */
-.modal-main-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: opacity 0.3s ease;
-}
+    .modal-prev,
+    .modal-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: red;
+      border: none;
+      width: 40px;
+      height: 10px;
+      border-radius: 40%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
 
-/* Кнопки навигации - УНИВЕРСАЛЬНЫЙ ВАРИАНТ */
-.modal-prev,
-.modal-next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.6); /* Темный фон для контраста */
-  color: white; /* Белый текст */
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 10;
-  transition: all 0.3s ease;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 1;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
+    .modal-prev:hover,
+    .modal-next:hover {
+      background: white;
+      transform: translateY(-50%) scale(1.1);
+    }
 
-.modal-prev {
-  left: 15px;
-}
+    .modal-prev {
+      left: 15px;
+    }
 
-.modal-next {
-  right: 15px;
-}
+    .modal-next {
+      right: 15px;
+    }
 
-.modal-prev:hover,
-.modal-next:hover {
-  background: rgba(0, 0, 0, 0.8);
-  transform: translateY(-50%) scale(1.1);
-  border-color: white;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
-.modal-prev:active,
-.modal-next:active {
-  transform: translateY(-50%) scale(0.95);
-}
-
-/* Для мобильных устройств - увеличиваем область нажатия */
-@media (max-width: 768px) {
-  .modal-prev,
-  .modal-next {
-    width: 48px;
-    height: 48px;
-    font-size: 28px;
-  }
-
-  .modal-prev {
-    left: 10px;
-  }
-
-  .modal-next {
-    right: 10px;
-  }
-}
-
-@media (max-width: 480px) {
-  .modal-prev,
-  .modal-next {
-    width: 44px;
-    height: 44px;
-    font-size: 24px;
-  }
-}
-
-/* Крестик закрытия - тоже через символ */
-.modal-close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: rgba(0, 0, 0, 0.6);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  color: white;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 20;
-  transition: all 0.3s ease;
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 1;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-.modal-close:hover {
-  background: rgba(0, 0, 0, 0.8);
-  transform: scale(1.1);
-  border-color: white;
-}
-
-/* Миниатюры */
-.modal-thumbnails {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding: 10px 5px;
-  scrollbar-width: thin;
-  scrollbar-color: #3499ff #e0e0e0;
-}
-
-.modal-thumbnails::-webkit-scrollbar {
-  height: 6px;
-}
-
-.modal-thumbnails::-webkit-scrollbar-track {
-  background: #e0e0e0;
-  border-radius: 10px;
-}
-
-.modal-thumbnails::-webkit-scrollbar-thumb {
-  background: #3499ff;
-  border-radius: 10px;
-}
-
-.modal-thumbnail {
-  flex: 0 0 auto;
-  width: 80px;
-  height: 60px;
-  border-radius: 8px;
-  overflow: hidden;
-  cursor: pointer;
-  opacity: 0.6;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-.modal-thumbnail:hover {
-  opacity: 0.8;
-  transform: translateY(-2px);
-}
-
-.modal-thumbnail.active {
-  opacity: 1;
-  border-color: #3499ff;
-  box-shadow: 0 0 10px rgba(52, 153, 255, 0.5);
-}
-
-.modal-thumbnail img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
     .modal-thumbnails {
       display: flex;
       gap: 10px;
@@ -1293,6 +1173,7 @@ function addSliderStyles() {
       .catalog__list {
         grid-template-columns: 1fr;
       }
+
 
       .promo-card__visual--regular {
         height: 200px;
