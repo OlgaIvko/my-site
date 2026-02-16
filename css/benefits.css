@@ -1,6 +1,6 @@
 /* =====================================
    БЛОК ПРЕИМУЩЕСТВ ВЕБ-СТУДИИ
-   Стили с улучшениями и оптимизацией
+   Стили с работающими ховерами
    ===================================== */
 
 /* ===== ПЕРЕМЕННЫЕ ===== */
@@ -25,7 +25,7 @@
   --shadow-hover:
     0 30px 60px -20px rgba(42, 91, 219, 0.3),
     0 0 0 1px rgba(255, 255, 255, 0.8), inset 0 -2px 0 rgba(42, 91, 219, 0.1);
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: all 0.3s ease;
   --transition-fast: all 0.2s ease;
 }
 
@@ -160,8 +160,55 @@
   position: relative;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.8);
-  animation: float 8s ease-in-out infinite;
-  animation-delay: calc(var(--card-index, 0) * 0.5s);
+}
+
+/* Верхняя полоска градиента */
+.benefit-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+/* ХОВЕР ЭФФЕКТЫ ДЛЯ КАРТОЧЕК - РАБОТАЕТ НА ВСЕХ УСТРОЙСТВАХ */
+.benefit-card:hover,
+.benefit-card:active {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-lg);
+}
+
+.benefit-card:hover::before,
+.benefit-card:active::before {
+  opacity: 1;
+}
+
+.benefit-card:hover .benefit-icon,
+.benefit-card:active .benefit-icon {
+  transform: rotate(5deg) scale(1.1);
+}
+
+.benefit-card:hover .benefit-title::after,
+.benefit-card:active .benefit-title::after {
+  width: 100%;
+}
+
+.benefit-card:hover .benefit-stat,
+.benefit-card:active .benefit-stat {
+  transform: scale(1.1);
+  box-shadow: 0 8px 15px rgba(16, 185, 129, 0.4);
+}
+
+/* Плавающая анимация - ТОЛЬКО на десктопе */
+@media (min-width: 769px) {
+  .benefit-card {
+    animation: float 8s ease-in-out infinite;
+    animation-delay: calc(var(--card-index, 0) * 0.5s);
+  }
 }
 
 /* Индексы для анимации */
@@ -184,45 +231,6 @@
   --card-index: 6;
 }
 
-/* Верхняя полоска градиента */
-.benefit-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: var(--gradient-primary);
-  opacity: 0;
-  transition: var(--transition);
-}
-
-/* ХОВЕР ЭФФЕКТЫ ДЛЯ КАРТОЧЕК */
-@media (hover: hover) {
-  .benefit-card:hover {
-    transform: translateY(-10px);
-    box-shadow: var(--shadow-lg);
-  }
-
-  .benefit-card:hover::before {
-    opacity: 1;
-  }
-
-  .benefit-card:hover .benefit-icon {
-    transform: rotate(5deg) scale(1.1);
-  }
-
-  .benefit-card:hover .benefit-title::after {
-    width: 100%;
-  }
-
-  .benefit-card:hover .benefit-stat {
-    transform: scale(1.1);
-    box-shadow: 0 8px 15px rgba(16, 185, 129, 0.4);
-  }
-}
-
-/* Плавающая анимация */
 @keyframes float {
   0%,
   100% {
@@ -358,13 +366,12 @@
   cursor: default;
 }
 
-@media (hover: hover) {
-  .benefit-tag:hover {
-    background: var(--primary);
-    color: var(--white);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 10px rgba(52, 153, 255, 0.3);
-  }
+.benefit-tag:hover,
+.benefit-tag:active {
+  background: var(--primary);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(52, 153, 255, 0.3);
 }
 
 /* ===== ФИЧИ ===== */
@@ -386,11 +393,10 @@
   transition: var(--transition-fast);
 }
 
-@media (hover: hover) {
-  .benefit-feature:hover {
-    transform: translateX(5px);
-    color: var(--primary);
-  }
+.benefit-feature:hover,
+.benefit-feature:active {
+  transform: translateX(5px);
+  color: var(--primary);
 }
 
 .benefit-feature i {
@@ -399,30 +405,130 @@
   transition: var(--transition-fast);
 }
 
-@media (hover: hover) {
-  .benefit-feature:hover i {
-    transform: scale(1.2);
-    color: var(--primary);
-  }
+.benefit-feature:hover i,
+.benefit-feature:active i {
+  transform: scale(1.2);
+  color: var(--primary);
 }
 
 /* ===== TECH-BADGE (специальные отметки) ===== */
+/* ===== TECH-BADGE (специальные отметки) ===== */
 .tech-badge {
   position: absolute;
-  top: -20px;
-  right: -40px;
+  top: -10px;
+  right: -10px;
   font-weight: 700;
   font-size: 0.8rem;
   padding: 5px 15px;
   border-radius: 30px;
-  border: 2px solid var(--white);
+  border: 2px solid #ffffff;
   z-index: 20;
-  transition: var(--transition);
+  transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  pointer-events: auto;
-  -webkit-tap-highlight-color: transparent;
+}
+
+/* Цветовые варианты tech-badge */
+.tech-badge.purple {
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  color: white;
+}
+.tech-badge.pink {
+  background: linear-gradient(135deg, #ec4899, #be185d);
+  color: white;
+}
+.tech-badge.green {
+  background: linear-gradient(135deg, #10b981, #047857);
+  color: white;
+}
+.tech-badge.orange {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+}
+.tech-badge.blue {
+  background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+  color: white;
+}
+.tech-badge.red {
+  background: linear-gradient(135deg, #ff6b6b, #dc2626);
+  color: white;
+}
+.tech-badge.gold {
+  background: linear-gradient(135deg, #fbbf24, #b45309);
+  color: white;
+}
+
+/* ХОВЕР ДЛЯ ВСЕХ TECH-BADGE */
+.tech-badge:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 30px 60px -20px rgba(42, 91, 219, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.8),
+    inset 0 -2px 0 rgba(42, 91, 219, 0.1);
+}
+
+/* ===== СПЕЦИАЛЬНЫЙ СТИЛЬ ДЛЯ "ПОДАРОК" ===== */
+.tech-badge.gift {
+  background: linear-gradient(135deg, #faf0f0, #ff8e8e, #ffb6b6);
+  background-size: 200% 200%;
+  animation: giftPulse 2s ease infinite;
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 5px 20px rgba(255, 107, 107, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 800;
+}
+
+/* ХОВЕР ДЛЯ GIFT */
+.tech-badge.gift:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 30px 60px -20px rgba(42, 91, 219, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.8),
+    inset 0 -2px 0 rgba(42, 91, 219, 0.1);
+  animation: none; /* Останавливаем пульсацию при наведении */
+}
+
+/* Для мобильных устройств - активное состояние при нажатии */
+.tech-badge.gift:active {
+  transform: translateY(-3px);
+  box-shadow:
+    0 30px 60px -20px rgba(42, 91, 219, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.8),
+    inset 0 -2px 0 rgba(42, 91, 219, 0.1);
+  animation: none;
+}
+
+.tech-badge.gift::after {
+  font-size: 0.9rem;
+  animation: sparkle 1.5s ease infinite;
+  display: inline-block;
+}
+
+@keyframes giftPulse {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes sparkle {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
 }
 
 /* Цветовые варианты tech-badge */
@@ -453,60 +559,6 @@
 .tech-badge.gold {
   background: linear-gradient(135deg, #fbbf24, #b45309);
   color: var(--white);
-}
-
-/* ХОВЕР ДЛЯ ВСЕХ TECH-BADGE */
-@media (hover: hover) {
-  .tech-badge:hover {
-    transform: translateY(-10px);
-    box-shadow:
-      0 30px 60px -20px rgba(52, 153, 255, 0.3),
-      0 0 0 1px rgba(255, 255, 255, 0.8);
-  }
-}
-
-/* ===== СПЕЦИАЛЬНЫЙ СТИЛЬ ДЛЯ "ПОДАРОК" ===== */
-.tech-badge.gift {
-  background: linear-gradient(135deg, #ff6b6b, #ff8e8e, #ffb6b6);
-  background-size: 200% 200%;
-  animation: giftPulse 2s ease infinite;
-  color: var(--white);
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 5px 20px rgba(255, 107, 107, 0.5);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  font-weight: 800;
-  padding: 8px 22px;
-}
-
-/* ХОВЕР ДЛЯ GIFT - ТОТ КОТОРЫЙ ВЫ ПРОСИЛИ */
-@media (hover: hover) {
-  .tech-badge.gift:hover {
-    transform: translateY(-10px) scale(1.05);
-    box-shadow:
-      0 30px 60px -20px rgba(42, 91, 219, 0.3),
-      0 0 0 1px rgba(255, 255, 255, 0.8),
-      inset 0 -2px 0 rgba(42, 91, 219, 0.1);
-    animation: none; /* Останавливаем пульсацию при ховере */
-  }
-}
-
-/* Для мобильных устройств */
-@media (hover: none) {
-  .tech-badge.gift:active {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow:
-      0 30px 60px -20px rgba(42, 91, 219, 0.3),
-      0 0 0 1px rgba(255, 255, 255, 0.8),
-      inset 0 -2px 0 rgba(42, 91, 219, 0.1);
-    transition: transform 0.1s ease;
-  }
-}
-
-.tech-badge.gift::after {
-  font-size: 0.6rem;
-  animation: sparkle 1.5s ease infinite;
-  display: inline-block;
 }
 
 /* Анимации */
@@ -573,12 +625,11 @@
   transition: var(--transition-fast);
 }
 
-@media (hover: hover) {
-  .tech-link:hover {
-    gap: 10px;
-    color: var(--primary-dark);
-    transform: translateX(5px);
-  }
+.tech-link:hover,
+.tech-link:active {
+  gap: 10px;
+  color: var(--primary-dark);
+  transform: translateX(5px);
 }
 
 /* ===== БЛОК С РЕЗУЛЬТАТАМИ ===== */
@@ -637,11 +688,10 @@
   transition: var(--transition);
 }
 
-@media (hover: hover) {
-  .result-item:hover .result-icon {
-    transform: rotate(5deg) scale(1.1);
-    box-shadow: 0 15px 30px -5px rgba(52, 153, 255, 0.4);
-  }
+.result-item:hover .result-icon,
+.result-item:active .result-icon {
+  transform: rotate(5deg) scale(1.1);
+  box-shadow: 0 15px 30px -5px rgba(52, 153, 255, 0.4);
 }
 
 .result-content {
@@ -660,10 +710,9 @@
   transition: var(--transition);
 }
 
-@media (hover: hover) {
-  .result-item:hover .result-value {
-    transform: scale(1.05);
-  }
+.result-item:hover .result-value,
+.result-item:active .result-value {
+  transform: scale(1.05);
 }
 
 .result-label {
@@ -736,12 +785,19 @@
 
   .benefit-stat {
     font-size: 0.6rem;
-    font-weight: 400;
   }
 
   /* Отключаем анимацию float на мобильных */
   .benefit-card {
     animation: none;
+  }
+
+  /* Увеличиваем область касания на мобильных */
+  .benefit-tag,
+  .tech-badge,
+  .tech-link {
+    display: inline-flex;
+    align-items: center;
   }
 }
 
@@ -780,10 +836,6 @@
   .tech-badge {
     font-size: 0.7rem;
     padding: 4px 12px;
-  }
-
-  .tech-badge.gift {
-    padding: 6px 18px;
   }
 }
 

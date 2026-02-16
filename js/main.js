@@ -135,19 +135,31 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("Куки отклонены");
     });
 });
-// Добавьте в ваш main.js для лучшего отклика на мобильных
+// Добавьте в ваш main.js
 document.addEventListener("DOMContentLoaded", function () {
-  const badges = document.querySelectorAll(".tech-badge");
+  // Убираем ховеры на мобильных
+  if ("ontouchstart" in window) {
+    document.body.classList.add("touch-device");
+  }
 
-  badges.forEach((badge) => {
-    badge.addEventListener("touchstart", function () {
+  // Добавляем активные состояния для всех элементов
+  const interactiveElements = document.querySelectorAll(
+    ".benefit-card, .benefit-tag, .tech-badge, .tech-link, .result-item",
+  );
+
+  interactiveElements.forEach((el) => {
+    el.addEventListener("touchstart", function () {
       this.classList.add("touch-active");
     });
 
-    badge.addEventListener("touchend", function () {
+    el.addEventListener("touchend", function () {
       setTimeout(() => {
         this.classList.remove("touch-active");
       }, 300);
+    });
+
+    el.addEventListener("touchcancel", function () {
+      this.classList.remove("touch-active");
     });
   });
 });
