@@ -415,11 +415,10 @@
 /* ===== TECH-BADGE (специальные отметки) ===== */
 .tech-badge {
   position: absolute;
-  top: -10px;
-  right: -10px;
+  top: -16px;
+  right: -17px;
   font-weight: 700;
   font-size: 0.8rem;
-  padding: 5px 15px;
   border-radius: 30px;
   border: 2px solid #ffffff;
   z-index: 20;
@@ -470,6 +469,8 @@
 
 /* ===== СПЕЦИАЛЬНЫЙ СТИЛЬ ДЛЯ "ПОДАРОК" ===== */
 .tech-badge.gift {
+  width: 85px;
+  padding: 6px;
   background: linear-gradient(135deg, #faf0f0, #ff8e8e, #ffb6b6);
   background-size: 200% 200%;
   animation: giftPulse 2s ease infinite;
@@ -477,8 +478,7 @@
   border: 2px solid rgba(255, 255, 255, 0.5);
   box-shadow: 0 5px 20px rgba(255, 107, 107, 0.5);
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 /* ХОВЕР ДЛЯ GIFT */
@@ -502,7 +502,7 @@
 }
 
 .tech-badge.gift::after {
-  font-size: 0.9rem;
+  font-size: 0.6rem;
   animation: sparkle 1.5s ease infinite;
   display: inline-block;
 }
