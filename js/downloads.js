@@ -166,7 +166,7 @@ function generatePolicyTextShort() {
 Email: info@terracode.ru
 
 Полная версия документа доступна на сайте:
-https://terracode.ru/privacy-policy
+https://terracode.ru/privacy-policy.html
 
 Дата публикации: ${new Date().toLocaleDateString("ru-RU")}`;
 }
@@ -186,7 +186,7 @@ ______________________________________ "${today}" г.,
 даю согласие Обществу с ограниченной ответственностью «TerraCode»
 (ИНН 4826123456, ОГРН 1234800012345) на обработку моих персональных
 данных в соответствии с Политикой конфиденциальности, размещенной на
-сайте https://terracode.ru/privacy-policy.
+сайте https://terracode.ru/privacy-policy.html.
 
 Согласие действует с даты подписания до достижения целей обработки
 либо до отзыва согласия.
