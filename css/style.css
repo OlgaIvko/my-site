@@ -2206,6 +2206,107 @@ button {
   margin-bottom: 50px;
 }
 
+/* Футер FAQ */
+.faq-footer {
+  text-align: center;
+  margin-top: 40px;
+  padding: 30px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+}
+
+.faq-footer p {
+  font-size: 1.2rem;
+  color: var(--dark);
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.faq-contact {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.faq-contact-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 25px;
+  background: linear-gradient(135deg, #f8faff, #f0f4ff);
+  color: var(--primary);
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(42, 91, 219, 0.1);
+}
+
+.faq-contact-link:hover {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: var(--dark);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px -5px rgba(42, 91, 219, 0.3);
+}
+
+.faq-contact-link i {
+  font-size: 1.2rem;
+}
+
+/* Цвета для иконок FAQ */
+.fa-clock:before {
+  content: "\f017";
+  color: #b1c0e2;
+}
+.fa-ruble-sign:before {
+  content: "\f158";
+  color: #10b981;
+}
+.fa-file-alt:before {
+  content: "\f15c";
+  color: #8b5cf6;
+}
+.fa-mobile-alt:before {
+  content: "\f3cd";
+  color: red;
+}
+.fa-headset:before {
+  content: "\f590";
+  color: #fff;
+}
+.fa-chart-line:before {
+  content: "\f201";
+  color: #10b981;
+}
+.fa-server:before {
+  content: "\f233";
+  color: #3b82f6;
+}
+.fa-file-signature:before {
+  content: "\f5b7";
+  color: #8b5cf6;
+}
+
+/* Контактные иконки */
+.fa-telegram:before {
+  content: "\f2c6";
+  color: #0088cc;
+}
+.fa-whatsapp:before {
+  content: "\f232";
+  color: #25d366;
+}
+.fa-phone:before {
+  content: "\f095";
+  color: #3b82f6;
+}
+.fa-envelope:before {
+  content: "\f0e0";
+  color: #ef4444;
+}
+
 @media (max-width: 768px) {
   .faq-heading {
     font-size: 28px;

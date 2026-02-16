@@ -15,7 +15,7 @@
   --gray: #4b5563;
   --light: #f8fafc;
   --white: #ffffff;
-  --gradient-primary: linear-gradient(135deg, var(--primary), var(--secondary));
+  --gradient-primary: linear-gradient(135deg, #090c0f, #3ab9c4);
   --gradient-success: linear-gradient(135deg, var(--success), #059669);
   --gradient-warning: linear-gradient(135deg, var(--warning), #d97706);
   --gradient-danger: linear-gradient(135deg, var(--danger), #dc2626);
