@@ -298,7 +298,7 @@
 
 /* Индивидуальные цвета для benefit-stat */
 .benefit-card:nth-child(1) .benefit-stat {
-  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  background: linear-gradient(135deg, #16c9e30f, #6d28d9);
 }
 .benefit-card:nth-child(2) .benefit-stat {
   background: linear-gradient(135deg, #3b82f6, #1e3a8a);
@@ -307,13 +307,13 @@
   background: linear-gradient(135deg, #ec4899, #be185d);
 }
 .benefit-card:nth-child(4) .benefit-stat {
-  background: linear-gradient(135deg, #10b981, #047857);
+  background: linear-gradient(135deg, #10b9ae00, #047857);
 }
 .benefit-card:nth-child(5) .benefit-stat {
   background: linear-gradient(135deg, #ff6b6b, #dc2626);
 }
 .benefit-card:nth-child(6) .benefit-stat {
-  background: linear-gradient(135deg, #6c5ce7, #4a40b0);
+  background: linear-gradient(135deg, #ff6b8400, #4a40b0);
 }
 
 /* ===== ЗАГОЛОВОК КАРТОЧКИ ===== */
@@ -469,7 +469,7 @@
 
 /* ===== СПЕЦИАЛЬНЫЙ СТИЛЬ ДЛЯ "ПОДАРОК" ===== */
 .tech-badge.gift {
-  width: 85px;
+  width: 94px;
   padding: 6px;
   background: linear-gradient(135deg, #faf0f0, #ff8e8e, #ffb6b6);
   background-size: 200% 200%;
@@ -635,6 +635,7 @@
 /* ===== БЛОК С РЕЗУЛЬТАТАМИ ===== */
 .benefits-results {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 40px;
